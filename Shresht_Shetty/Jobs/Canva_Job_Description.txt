@@ -1,0 +1,84 @@
+Company: Canva
+
+Company Overview: 
+We're a global online visual communications platform on a mission to empower the world to design. Featuring a simple drag-and-drop user interface and a vast range of templates ranging from presentations, documents, websites, social media graphics, posters, apparel to videos, plus a huge library of fonts, stock photography, illustrations, video footage, and audio clips, anyone can take an idea and create something beautiful on Canva on any device, from anywhere in the world.
+
+Since our launch in 2013, we’ve had the crazy big goal of making design accessible to everyone. We were founded on the belief that people shouldn't need to understand complex software to unlock their creativity. We’re leveling the playing field and democratizing access to design and visual communication by empowering 100% of the world to communicate in a way that was once limited to the 1%. 
+
+We've always had a deeper mission surrounding Canva — which we talk about as our 'simple' two-step plan: to build one of the world’s most valuable companies, and to do the most good we possibly can. We're committed to our core value of Being a Force for Good, so as the value of our company grows, so too does our ability to have a positive impact on the world. 
+
+---------------------------------------------------------------------------------------------------
+
+About the job
+Join The Team Redefining How The World Experiences Design.
+
+Hey, g'day, mabuhay, kia ora,你好, hallo, vítejte!
+
+Thanks for stopping by. We know job hunting can be a little time consuming and you're probably keen to find out what's on offer, so we'll get straight to the point.
+
+
+Where And How You Can Work
+
+Our flagship campus is in Sydney. We also have a campus in Melbourne and co-working spaces in Brisbane, Perth and Adelaide. But you have choice in where and how you work. That means if you want to do your thing in the office (if you're near one), at home or a bit of both, it's up to you.
+
+
+What You’d Be Doing In This Role
+
+As Canva scales change continues to be part of our DNA. But we like to think that's all part of the fun. So this will give you the flavour of the type of things you'll be working on when you start, but this will likely evolve.
+
+The Video AI team at Canva is pushing the boundaries of online video editing with cutting-edge AI/ML features that empower anyone to create engaging videos. We’re working to make Canva the go-to video playground for everyone.
+
+We’re excited to be creating amazing new features that help our rapidly expanding and highly engaged user base to be more productive and tell their stories with engaging video content. We invite you to be part of this mission to help shape the future of video content creation.
+
+2023 is an incredible time to join the team. The problem space and industry are advancing quickly and the team is growing. You will have a direct influence on our ambitious plans to scale AI / ML experiences for over 100 million active users.
+
+Canva Video has one of the largest audiences of content creators in the world. You’ll be a key driver in helping achieve our vision of becoming the go-to video platform. Many of our newest features aim to help empower the world to design great videos by bringing "magic" AI/ML capabilities to our product, and you’ll be working in a full-stack team to train, build and own the ML services that make this possible.
+
+
+What You'll Do
+
+-Design, develop and deploy solutions to challenging problems, working closely with other engineers, designers and product managers to deliver features and experiments that will be used by millions of users monthly and make a global impact.
+-Develop and train ML models that enable innovative features and improve the productivity of our customers.
+-Provide direction and guidance across the broad domain of video, acting as a technical point of contact and being able to speak with accuracy about the domain.
+-Help to drive the product and technology strategy for video AI and ML at Canva.
+-Identify missing platform capabilities and drive the design and delivery of those new capabilities.
+-Focus on research and stay on top of the rapidly evolving state-of-the-art within video and signal processing space. Reading papers and following the machine learning community discussing these papers is a key part of your job.
+-Work collaboratively and consult with Leads, Product Managers, and Engineers across Canva to explore the space of current and emerging possibilities for video AI.
+-You will be adept at navigating organizational and technical friction to influence other teams and specialties while maintaining focus on the technical aspects of delivery.
+-Facilitate knowledge sharing and effectively advocate for the needs of engineering to non-technical stakeholders within the group
+-Demonstrate initiative and ownership in achieving goals, improving processes and solutions.
+-Identify opportunities for cross-team collaboration to work on new ideas and improvements that help achieve our goals.
+
+
+A Bit About You
+
+-You are a strong communicator and a team player and are eager to work together with your colleagues to brainstorm ideas.
+-You have a strong sense of ownership and are eager to proactively find and develop novel solutions to challenging problems.
+-You are inspired by the rapidly evolving state-of-the-art in the visual AI space, and staying on top of it is one of your key motivations.
+-You may have experience in the VFX industry leading the delivery of new render pipeline components of deploying ML tooling to speed up the creative process.
+-You have a solid understanding of computer vision, especially the concepts of convolutional neural networks (CNNs), transformers, and diffusion models.
+-Proficiency with the following technologies will be beneficial for this position: Deep Learning frameworks (Pytorch, Tensorflow, Keras, Theano or Mxnet), Python 3, Numpy, OpenCV, Docker and Kubernetes, as well as video tools including ffmpeg, oneVPL, PyAV.
+
+
+What's in it for you?
+
+Achieving our crazy big goals motivates us to work hard - and we do - but you'll experience lots of moments of magic, connectivity and fun woven throughout life at Canva, too. We also offer a stack of benefits to set you up for every success in and outside of work.
+
+
+Here's a Taste Of What's On Offer
+
+-Equity packages - we want our success to be yours too
+-Inclusive parental leave policy that supports all parents & carers
+-An annual Vibe & Thrive allowance to support your wellbeing, social connection, office setup & more
+-Flexible leave options that empower you to be a force for good, take time to recharge and supports you personally
+
+
+Check out lifeatcanva.com for more info.
+
+
+Other Stuff To Know
+
+We make hiring decisions based on your experience, skills and passion, as well as how you can enhance Canva and our culture. When you apply, please tell us the pronouns you use and any reasonable adjustments you may need during the interview process.
+
+
+Please note that interviews are conducted virtually.

@@ -1,0 +1,1 @@
+bash script_automate.sh ./Shresht_Shetty/Shresht_Professional_Information.txt https://www.seek.com.au/job/70775749?type=standard#sol=6316ea8dd7ce7aba0be8ce462262819dffcbbb24 ./CV_Template_2 ./CV_Template_2

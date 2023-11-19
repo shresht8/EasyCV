@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: latex-app-deployment
+  labels:
+    app: latex-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: latex-app-deployment
+  template:
+    metadata:
+      name: latex-app-deployment
+      labels:
+        app: latex-app-deployment
+    spec:
+      containers:
+        - name: latex-app-deployment
+          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 # Use latex-app:latest in local deployment
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /app/output
+              name: shared-volume
+      volumes:
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: shared-pvc
+      

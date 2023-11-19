@@ -1,0 +1,23 @@
+Job Title: Machine Learning Engineer
+
+Company Overview:
+TheDriveGroup is 100% committed to improving meaningful diversity in the technology industry. We partner with clients who embrace diversity and seek candidates across all backgrounds, abilities, genders, sexualities, cultures, and faiths.
+------------------
+About the job:
+One of the world's leading social engagement platforms is scaling its Machine Learning, specifically NLP, capability in Sydney. As an ML Engineer on the NLP team, you will work with stakeholders across the business and develop products designed to ensure safety for all users on the platform.
+
+Job responsibilities:
+Own the development of cutting-edge content safety systems, Engineer highly scalable classifiers, tools, models, and algorithms harnessing state-of-the-art machine learning, computer vision, and data mining technologies, Develop mission-critical strategies and boost model performance by aligning with product objectives, Collaborate seamlessly with cross-functional teams to ensure global protection.
+
+Job requirements:
+3 years + experience in NLP, DeepLearning or Computer Vision, Experience with online machine learning platforms is highly desirable, Understanding of training foundational models, Experience with Python, PyTorch and TensorFlow, Advanced communication and stakeholder engagement skills
+
+Skills required:
+NLP, DeepLearning, Computer Vision, Python, PyTorch, TensorFlow, Advanced communication and stakeholder engagement skills
+
+Salary offered:
+120000
+
+Company perks:
+Great salary, bonus and a comprehensive benefits package. Hybrid role with 1 day WFH only.
+

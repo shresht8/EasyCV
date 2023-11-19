@@ -1,0 +1,230 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Developer CV
+% LaTeX Class
+% Version 2.0 (12/10/23)
+%
+% This class originates from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Omar Roldan
+% Based on a template by  Jan Vorisek (jan@vorisek.me)
+% Based on a template by Jan Küster (info@jankuester.com)
+% Modified for LaTeX Templates by Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% The MIT License (see included LICENSE file)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[9pt]{developercv} % Default font size, values from 8-12pt are recommended
+\usepackage{multicol}
+\setlength{\columnsep}{0mm}
+%----------------------------------------------------------------------------------------
+\usepackage{lipsum}  
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND CONTACT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.5\textwidth} 
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	{ \fontsize{16}{20} \textcolor{black}{\textbf{\MakeUppercase{Shresht Shetty}}}} % First name
+	
+	\vspace{6pt}
+	
+	{\Large Data Scientist $\sim$ Engineer} % Career or current job title
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.2\textwidth} % 20% of the page width for the first row of icons
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	% icon has 3 parameters
+	% The first parameter is the FontAwesome icon name, the second is the box size and the third is the link. In 3rd parameter there are 2 arguments, first is actual link, second is what shows on the PDF once rendered
+	\icon{Phone}{11}{+61478917105}\\
+    \icon{MapMarker}{11}{Maroochydore, Sunshine Coast}\\
+	
+\end{minipage}
+\begin{minipage}[t]{0.27\textwidth} % 27% of the page width for the second row of icons
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	% The first parameter is the FontAwesome icon name, the second is the box size and the third is the link. In 3rd parameter there are 2 arguments, first is actual email, second is what shows on the PDF once rendered
+	\icon{Envelope}{11}{\href{mailto:email@example.com}{email.email@example.com}}\\	
+	% The first parameter is the FontAwesome icon name, the second is the box size and the third is the link. In 3rd parameter there are 2 arguments, first is actual github repo link, second is what shows on the PDF once rendered
+    \icon{Github}{11}{\href{https://github.com/uma-dev}{github.com/uma-dev}}\\
+    % The first parameter is the FontAwesome icon name, the second is the box size and the third is the link. In 3rd parameter there are 2 arguments, first is actual linkendin link, second is what shows on the PDF once rendered
+    \icon{LinkedinSquare}{11}{\href{https://www.linkedin.com}{/in/your-personal-url}}\\    
+    
+\end{minipage}
+
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION, SKILLS AND TECHNOLOGIES
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.46\textwidth}
+    %Add a professional user summary here
+    \cvsect{Summary}
+	\vspace{-6pt}
+ 
+    %Dummy text- remove and replace with summary text there
+	Data science enthusiast, a sports person with good problem solving and team building skills keen to assume new responsibilities and challenges. Collaborated with cross functioning teams in the fields of insurance, finance (credit risk) and marketing to deliver high performing results. Has created automated workflow pipelines to deploy client models through github actions. Worked in fast paced environments to deliver high quality logistics optimization models to one of the largest grocery chains in Australia.\\
+\end{minipage}
+\hfill % Whitespace between
+\begin{minipage}[t]{0.465\textwidth}
+   %Section for skills
+    \cvsect{Skills}
+    \vspace{-6pt}
+    
+    \begin{minipage}[t]{0.2\textwidth}
+	% Add list of programming languages known by user - Remove section if user information not available
+        \textbf{Languages:}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.73\textwidth}
+      Python (numpy, sklearn, pandas, matplotlib), R, SQL, JAVA, Tensorflow.  
+    \end{minipage}
+    \vspace{4mm}
+    
+    \begin{minipage}[t]{0.2\textwidth}
+% Add list of technologies known by user - Remove section if user information not available
+        \textbf{Technologies:}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.73\textwidth}
+      AWS, Hadoop, Spark, SAS Enterprise Guide, SAS Studio, CPLEX, Gurobi.
+    \end{minipage}
+    
+\end{minipage}
+
+%----------------------------------------------------------------------------------------
+%	Projects
+%----------------------------------------------------------------------------------------
+% Section for projects - Remove this section if there is no projects in user description
+% Don't add projects that are already included in user experience. Keep this section only if explicitly mention in user description
+\cvsect{Projects}
+\begin{entrylist}
+    \entry
+		{Python, Tensorflow, Langchain} % replace argument with technology used
+		{Conversational Chatbots} % replace argument with name of project
+		{github.com link} % replace with github link if available
+		{%Dummy text 
+        Built conversational chatbots for company platform using LLMs and Langchain.} % replace with project description
+    \entry
+		{Python, CPLEX, Gurobi}
+		{Optimization Models}
+		{github.com link}
+		{%Dummy text 
+        Built Optimization models such as transport routing, workforce optimization, operation theatre block scheduling models for the company platform.}
+	\entry
+		{Python, Github Actions}
+		{Automated Workflow Pipelines}
+		{github.com link}
+		{%Dummy text 
+        Created automated workflow pipelines to deploy client models through github actions.}
+    \entry
+		{Python, Machine Learning}
+		{Credit Risk Models}
+		{github.com link}
+		{%Dummy text 
+        Formed supervised machine learning credit risk models using random forest to identify defaulting companies.}
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+\vspace{-10 pt}
+\cvsect{Education}
+\begin{entrylist}
+    \entry
+		{2018 - 2020} % replace argument with from date and to date 
+		{Masters in Data Science} % replace with type of degree i.e Bachelors, Masters ,PhD
+		{The University of Queensland} % replace with type of education. Example: University, skill school etc
+		{Specialized in Machine Learning and Data Analytics} % Enter brief description of learning from this education relevant to job here
+    \entry
+		{2014 - 2018}
+		{Bachelors in Chemical Engineering}
+		{Manipal Institute of Technology}
+		{Specialized in Chemical Engineering}
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	EXPERIENCE
+%----------------------------------------------------------------------------------------
+\vspace{-10 pt}
+\cvsect{Experience}
+\begin{entrylist}
+	\entry
+        {August 2021 -- Present} % replace argument with from date and to date 
+		{Data Scientist}  % replace argument with role name here
+		{BlueSky Creations}  % replace argument with company name here
+		{\vspace{-10pt}
+        \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=-1pt]
+            \item Built production scale optimization software for one of Australia's biggest grocery chains to automate their distribution center operations.
+            \item Built conversational chatbots for company platform using LLMs and Langchain.
+            \item Built Optimization models such as transport routing, workforce optimization, operation theatre block scheduling models for the company platform.
+            \item Employed CI/CD pipelines and MLOps to build AI tools at the company.
+            \item Implemented automations in deployment using Github actions, collaborated with other team members using git.
+        \end{itemize} 
+        \texttt{Python} \slashsep \texttt{Tensorflow} \slashsep \texttt{Langchain} \slashsep \texttt{Github Actions}} % add skills and technologies of job role here
+	\entry
+		{Jan 2020 -- Aus 2021}
+		{Research Assistant}
+		{The University of Queensland}
+		{\vspace{-10pt}
+        \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=-1pt]
+            \item Conducted multiple experiments to study the impact of demographics on insurance fraud.
+            \item Used Principal component analysis to identify fraudulent claims from insurance claims.
+            \item Conducted various hypothesis tests to understand the difference in suspicion levels between different groups of people.
+            \item Worked through the data science pipeline that included cleaning data, manipulating data, regression analysis and testing.
+            \item Deployed the logistic regression model to study the effect plan switching has on expenditure.
+        \end{itemize} 
+        \texttt{Python} \slashsep \texttt{PCA} \slashsep \texttt{Logistic Regression}}
+	\entry
+		{Jun 2019 -- April 2020}
+		{Machine Learning Engineer Intern}
+		{CRiskCo}
+		{\vspace{-10pt}
+        \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=-1pt]
+            \item Formed supervised machine learning credit risk models using random forest to identify defaulting companies.
+            \item Worked with cleaning of data and imputation of missing values.
+            \item Used machine learning techniques such as undersampling, oversampling, SMOTE sampling to handle the class imbalance.
+            \item Calculated Probability of Default (PD) for all companies, which indicates their creditworthiness.
+        \end{itemize} 
+        \texttt{Python} \slashsep \texttt{Random Forest} \slashsep \texttt{SMOTE}}
+    \entry
+		{March 2019 -- June 2019}
+		{Data Officer}
+		{UQ Business School}
+		{\vspace{-10pt}
+        \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=-1pt]
+            \item Collaborated with the marketing team at UQ Business school to improve the data collection and segmentation process for their client, Queensland Treasury Corporation.
+            \item Analyzed and streamlined the data collection process for CRM data.
+            \item Imputed missing values, standardized the dataset to a single format for ease of use.
+            \item Manipulated data in 20+ databases to create a master database to reduce redundancy.
+            \item Delivered a technical presentation to the client that identified faults in their data collection system and included suggestions for improvement. The presentation also contained complex visualisations on segmentation of customers for effective e- marketing.
+        \end{itemize} 
+        \texttt{Python} \slashsep \texttt{Data Analysis} \slashsep \texttt{Data Visualization}}
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	LANGUAGES
+%----------------------------------------------------------------------------------------
+% Section for user languages - replace with certifications of user
+% Additional section for skills can be added in a similar manner
+\vspace{-10 pt}
+	\cvsect{Licenses \& Certifications}
+    \vspace{-6pt}
+    
+    \hspace{26mm} \textbf{Machine Learning Engineering for Production (MLOps)} - Coursera - Dec 2021, \textbf{AWS Solutions Architect Associate} - Amazon Web Services - Issued Jan 2021 Expires Jan 2024, \textbf{Deep learning specialisation} - Coursera - Jan 2019
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

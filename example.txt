@@ -1,0 +1,3 @@
+bot_create_cv = BotCreateCV('./Shresht_Shetty/Shresht_Professional_Information.txt',
+                                job_desc_url,
+                                './CV_Template_2')

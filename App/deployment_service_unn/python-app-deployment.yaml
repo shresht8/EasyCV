@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-app-deployment
+  labels:
+    app: python-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-app-deployment
+  template:
+    metadata:
+      labels:
+        app: python-app-deployment
+    spec:
+      containers:
+        - name: python-app-deployment
+          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 #use python-app:latest in local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - mountPath: /app/output
+              name: shared-volume
+      volumes:
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: shared-pvc
+      restartPolicy: Always
+      

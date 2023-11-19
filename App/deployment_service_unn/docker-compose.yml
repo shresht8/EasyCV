@@ -1,0 +1,14 @@
+version: '3'
+services:
+  python_app:
+    build: ./python-app
+    volumes:
+      - ./output:/app/output  # Bind mount for shared directory
+    ports:
+      - "8001:8001"
+
+  latex_app:
+    build:  ./latex-app
+    volumes:
+      - ./output:/app/output  # Bind mount for shared directory
+

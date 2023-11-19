@@ -1,0 +1,70 @@
+To run app on local:
+
+docker run -v C:\Users\shres\Projects\EasyCV\App\python-app\keys\kp_docker_key.json:/app/kp_docker_key.json -e GOOGLE_APPLICATION_CREDENTIALS=/app/kp_docker_key.json -p 8000:8000 python-app:test
+
+----------------------------------------------------------------------------------------------------------------------
+
+To build and push to google cloud Artifact registry 
+
+(In python-app folder):
+
+gcloud builds submit --tag australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:latest .
+
+(In latex-app folder):
+
+gcloud builds submit --tag australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:latest .
+
+----------------------------------------------------------------------------------------------------------------------
+
+Deployment on google cloud kubernetes cluster:
+
+-------------------------------------------------------------------------------------------------------------
+
+To authenticate google cloud storage into google kubernetes cluster
+
+1)Creating cluster in google cloud (In gcloud console):
+
+gcloud container clusters create-auto easycv-gke --location australia-southeast1
+
+2) In directory with service account private key run:
+kubectl create secret generic gcloud-storage-auth-key --from-file=key.json=kp-sa-private-key.json
+
+
+3) Make sure compute engine service account has editor permissions - to pull images from Artifact Registry
+
+4) Apply manifest files for deployment, service and storage: Run from directory they are stored
+   kubectl apply -f easycv-app-deployment.yaml
+   kubectl apply -f python-app-service.yaml
+
+5) Check if service is running: kubectl get services 
+
+----------------------------------------------------------------------------------------------------------------------
+
+Testing:
+
+----------------------------------------------------------------------------------------------------------------------
+
+{
+  "arg1": "cv_templates/cv_template_3",
+  "arg2": "user/Shresht_Shetty",
+  "arg3": "https://www.seek.com.au/job/71463522?ref=search-standalone&type=standout#sol=4c4b4c3c4b38f6557ec6488d11d7134b09543274",
+  "arg4": "/app/output"
+}
+
+----------------------------------------------------------------------------------------------------------------------
+
+Important cluster  commands:
+
+1) Stopping and starting a cluster:
+
+
+2) Check status of pods:
+kubectl get pods
+
+3) Check status of deployments:
+kubectl get deployments
+
+4) Restart deployments - After some changes have been made:
+kubectl rollout restart deployment 
+
+----------------------------------------------------------------------------------------------------------------------

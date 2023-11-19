@@ -1,0 +1,1 @@
+docker run --rm -v C:\Users\shres\Projects\EasyCV\CV_Template_3:/app my-latex_image

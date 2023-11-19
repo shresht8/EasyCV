@@ -1,0 +1,23 @@
+Job Title: Data Scientist/Asset Performance Analyst
+
+Company Overview:
+This globally recognised mining equipment provider is looking to grow their existing Data and Analytics team in line with some exciting data related projects coming up in 2024.
+------------------
+About the job:
+Excellent opportunity for an academically minded, ambitious Data Scientist to learn and apply new skills in real-time and predictive analytics.
+
+Job responsibilities:
+You would be tasked with building and developing data solutions to a range of interesting technical problems and projects, involving real-time analytics, predictive analytics, and machine learning. You will be empowered and trusted to use your academic mindset to research and find the best approach to a solution (because not every problem can be solved the same way!) and use the most appropriate tools and techniques to achieve the optimal outcome.
+
+Job requirements:
+Strong, demonstrated skills and experience using Python. Alteryx, KNIME, or similar workflow optimisation tools would be beneficial. While not essential, familiarity with or exposure to inventory management/optimisation would be beneficial. Exposure to (or at least a genuine interest in learning) real-time data analytics or predictive analytics tools and techniques. Ability to deal with ambiguity by engaging directly with stakeholders and SMEs to extract information, understand requirements, and collaborate with your team to build a suitable solution. An academic mindset, with the ability to research appropriate tools and techniques in order to solve technical problems.
+
+Skills required:
+Python, Alteryx, KNIME, workflow optimisation tools, inventory management/optimisation, real-time data analytics, predictive analytics tools and techniques, ability to deal with ambiguity, ability to research appropriate tools and techniques.
+
+Salary offered:
+130000
+
+Company perks:
+Outstanding learning and development opportunities in real-time analytics, predictive analytics, and machine learning. Brisbane CBD office location, Flexible hours, Friendly, collaborative, skilled team of Data Scientists and Data Analysts from a diverse range of technical and non-technical backgrounds.
+

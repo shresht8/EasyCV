@@ -1,0 +1,11 @@
+requests~=2.31.0
+langchain~=0.0.329
+openai~=0.28.1
+html2text~=2020.1.16
+charset-normalizer~=3.3.2
+pydantic~=2.4.2
+BeautifulSoup4
+google-api-python-client
+google-cloud-storage
+uvicorn[standard]~=0.17.6
+fastapi

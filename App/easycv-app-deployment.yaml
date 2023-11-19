@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: easycv-app-deployment
+  labels:
+    app: easycv-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: easycv-app-deployment
+  template:
+    metadata:
+      name: easycv-app-deployment
+      labels:
+        app: easycv-app-deployment
+    spec:
+      containers:
+        - name: python-app
+          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
+          imagePullPolicy: Always #IfNotPresent if image tag is not latest
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - mountPath: /app/output
+              name: shared-volume
+            - mountPath: /var/secrets/google
+              name: google-cloud-key
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
+        - name: latex-app
+          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
+          imagePullPolicy: Always #IfNotPresent if image tag is not latest
+          volumeMounts:
+            - mountPath: /app/output
+              name: shared-volume
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+      volumes:
+        - name: shared-volume
+          emptyDir: {}
+        - name: google-cloud-key
+          secret:
+            secretName: gcloud-storage-auth-key
+      restartPolicy: Always
+      

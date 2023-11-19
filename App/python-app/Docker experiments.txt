@@ -1,0 +1,31 @@
+To run app on local:
+
+docker run -v C:\Users\shres\Projects\EasyCV\App\python-app\keys\kp_docker_key.json:/app/kp_docker_key.json -e GOOGLE_APPLICATION_CREDENTIALS=/app/kp_docker_key.json -p 8000:8000 python-app:test
+
+----------------------------------------------------------------------------------------------------------------------
+
+To build and push to google cloud Artifact registry 
+
+(In python-app folder):
+
+gcloud builds submit --tag australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 .
+
+(In latex-app folder):
+
+gcloud builds submit --tag australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 .
+
+----------------------------------------------------------------------------------------------------------------------
+
+Deployment on google cloud kubernetes cluster:
+
+1)Creating cluster in google cloud (In gcloud console):
+
+gcloud container clusters create-auto easycv-gke --location australia-southeast1
+
+2) Make sure compute engine service account has editor permissions - to pull images from Artifact Registry
+
+3) Apply manifest files for deployment, service and storage: Run from directory they are stored
+   kubectl apply -f easycv-app-deployment.yaml
+   kubectl apply -f python-app-service.yaml
+
+4) Check if service is running: kubectl get services 

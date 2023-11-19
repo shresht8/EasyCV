@@ -1,0 +1,31 @@
+1) minikube start # Starts cluster
+
+2) minikube docker-env # This command gives set of environment variables to connect to minikube docker daemon rather than local docker Daemon
+
+3) #Run all commands from output of 2)
+
+4) Write manifest file for python-app deployment, latex-app deployment, python-app service (since this is exposed) and persistent volume claim.
+	Note: Use imagePullPolicy: IfNotPresent if docker images used have tags as 'latest'
+
+5) docker build -t python-app:latest ./python-app # Build python image in minikube docker daemon
+
+6) docker build -t latex-app:latest ./latex-app # Build latex image in minikube docker daemon
+
+7) Apply manifest files for deployment, service and storage: Run from directory they are stored
+   kubectl apply -f easycv-app-deployment.yaml
+   kubectl apply -f python-app-service.yaml
+
+
+Note: To run on local, mount output directory to /app/output: minikube mount output:/app/output
+
+8) Check if pods are running: kubectl get pods
+
+9) If pods are running, start the python service using: minikube service python-app-service
+
+Some useful commands:
+a) Restart deployments using:
+kubectl rollout restart deployment python-app-deployment
+kubectl rollout restart deployment latex-app-deployment
+
+b) To describe deployments:
+kubectl describe deployment python-app-deployment

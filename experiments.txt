@@ -1,0 +1,30 @@
+bash script_automate.sh Shresht ./Shresht_Shetty/Shresht_Professional_Information.txt https://www.seek.com.au/job/70775749?type=standard#sol=6316ea8dd7ce7aba0be8ce462262819dffcbbb24 ./CV_Template_2 ./CV_Template_2
+
+---------------------------------------------------------------------------------------------------------
+
+bash script_automate.sh Shresht ./Shresht_Shetty/Shresht_Professional_Information.txt https://www.seek.com.au/job/70775749?type=standard#sol=6316ea8dd7ce7aba0be8ce462262819dffcbbb24 ./CV_Template_1 ./CV_Template_1
+
+---------------------------------------------------------------------------------------------------------
+
+bash script_automate.sh Archana ./Archana_Shetty/Archana_Professional_Information.txt https://www.linkedin.com/jobs/view/executive-coach-alpha-an-edu-startup-$150-000-year-usd-at-crossover-3741834795/ ./CV_Template_2 ./CV_Template_2
+
+---------------------------------------------------------------------------------------------------------
+
+bash script_automate.sh Shresht ./Shresht_Shetty/Shresht_Professional_Information.txt https://www.seek.com.au/job/70775749?type=standard#sol=6316ea8dd7ce7aba0be8ce462262819dffcbbb24 ./CV_Template_3 ./CV_Template_3
+
+---------------------------------------------------------------------------------------------------------
+
+bash script_automate.sh Shresht ./Shresht_Shetty/Shresht_Professional_Information.txt https://www.seek.com.au/job/70775749?type=standard#sol=6316ea8dd7ce7aba0be8ce462262819dffcbbb24 ./CV_Template_3 ./CV_Template_3
+
+---------------------------------------------------------------------------------------------------------
+
+docker run -v C:\Users\shres\Projects\EasyCV\App\python-app\keys\kp_docker_key.json:/app/kp_docker_key.json -e GOOGLE_APPLICATION_CREDENTIALS=/app/kp_docker_key.json -p 8000:8000 python-app:test
+
+---------------------------------------------------------------------------------------------------------
+JSON input arguments
+{
+  "arg1": "cv_templates/cv_template_3",
+  "arg2": "user/Shresht_Shetty",
+  "arg3": "https://www.seek.com.au/job/70775749?type=standard#sol=6316ea8dd7ce7aba0be8ce462262819dffcbbb24",
+  "arg4": "./output"
+}
