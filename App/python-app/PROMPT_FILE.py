@@ -41,6 +41,7 @@ USER INFORMATION and only select information from USER INFORMATION that is relev
 Be succinct and use bullet points in sections if appropriate. \
 - Use the comments (comments have % character at the start of a comment in Latex) as tips that help you form your reply.\
 They are there to guide you make changes to the code. Read and apply instructions given in these comments very carefully.
+- Do not insert any comments from the input into your output. Comments have % character at the start of the comment.
 - Don't change the structure of the code, just replace the random persons \
 information with the users information. 
 - You can add/remove an environment in the existing code if you think it is relevant to do so but use\
@@ -85,7 +86,7 @@ Latex elements should be placed exactly where they are in the input. \
 You only have authority to add elements replicating other elements in the section. For instance,\
 you may want to add additional experience. For this you must copy the structure of the experiences of the candidate\
 currently present.
-
+- It is important that you don't insert any comments in your output.  Comments have % character at the start of the comment.
 Again, you need to remember to use the same style and not alter package information.
 
 Now, take a deep breath and solve this problem step by step.
