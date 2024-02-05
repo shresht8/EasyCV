@@ -42,5 +42,6 @@ class CVExpertBot():
         # with open(os.path.join(path, '{name}_CV.tex'.format(name=self.user_name)), 'w', encoding='utf-8') as tex_file:
         with open(os.path.join(path, 'main.tex'), 'w+', encoding='utf-8') as tex_file:
             tex_file.write(output_str)
+            print("main.tex file has been written to {}.".format(path))
 
 

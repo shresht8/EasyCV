@@ -54,11 +54,16 @@ class BotCreateCV():
 
 
     def init_gloud(self):
-        credentials, project = default()
-        self.client = storage.Client(credentials=credentials, project='KeyProject')
-        self.bucket = self.client.get_bucket("easy-cv-bucket")
-        # List all the objects in the bucket "easy-cv-bucket"
-        blobs = self.client.list_blobs(bucket_or_name="easy-cv-bucket")
+        try:
+            credentials, project = default()
+            print("Google cloud credentials initiated")
+            self.client = storage.Client(credentials=credentials, project='KeyProject')
+            self.bucket = self.client.get_bucket("easy-cv-bucket")
+            # List all the objects in the bucket "easy-cv-bucket"
+            blobs = self.client.list_blobs(bucket_or_name="easy-cv-bucket")
+        except Exception as e:
+            print("Google cloud credentials not found")
+
 
         # Print the names of the objects
         # for blob in blobs:
@@ -69,10 +74,13 @@ class BotCreateCV():
         # Get the text document object.
         path = os.path.join(self.user_info_path, 'user_professional_information.txt')
         path = path.replace('\\','/')
-        print(path)
-        blob = self.bucket.blob(path)
-        with blob.open("r") as f:
-            self.user_info_str = f.read()
+        try:
+            blob = self.bucket.blob(path)
+            with blob.open("r") as f:
+                self.user_info_str = f.read()
+                print("user professional information successfully read")
+        except Exception as e:
+            print("user professional information path not found in blob")
         # with open(os.path.join(self.user_info_path, 'user_professional_information.txt'), 'rb') as file:
         #     self.user_info_str = file.read()
 
@@ -80,12 +88,17 @@ class BotCreateCV():
         """reads cv main.tex file from the directory"""
         # with open(os.path.join(self.latex_input_path, 'main.tex'), 'rb') as file:
         #     latex_content_bytes = file.read()
+        print("CV Template {} used.".format(self.latex_input_path))
         path = os.path.join(self.latex_input_path, 'main.tex')
         path = path.replace('\\','/')
         blob = self.bucket.blob(path)
-        with blob.open("r") as f:
-            latex_content_bytes = f.read()
-        self.latex_content = latex_content_bytes
+        try:
+            with blob.open("r") as f:
+                latex_content_bytes = f.read()
+                print("CV template main.tex file successfully read")
+            self.latex_content = latex_content_bytes
+        except Exception as e:
+            print("CV Template in input not found in blob")
         # self.latex_content = latex_content_bytes.decode('utf-8')
 
     def download_bucket_folder(self):
@@ -125,8 +138,9 @@ class BotCreateCV():
         # Uncomment below line for local testing
         # job_desc_path = job_desc_path.replace('/', '\\') For local
         with open(job_desc_path, 'r') as file:
-            print(file)
+            # print(file)
             self.job_desc_str = file.read()
+            print("job decription exists; read to string")
 
     def scrape_job_desc(self):
         """Scrapes job data from link and """
@@ -135,6 +149,7 @@ class BotCreateCV():
         # Uncomment below line for local testing
         # job_desc_path = job_desc_path.replace('/', '\\') For local
         if not os.path.exists(job_desc_path):
+            print("job description doesn't exist; Using OpenAI function to scrape JD to text file")
             url = [self.job_desc_link]
             loader = AsyncHtmlLoader(url)
             docs = loader.load()
@@ -191,6 +206,7 @@ class BotCreateCV():
             if job_desc.company_perks:
                 file.write("Company perks:\n{}\n".format(job_desc.company_perks))
                 file.write("\n")
+            print("JD written to text file")
 
     def generate_cv(self):
         """initializes llm, creates cv tex file and compiles it"""
