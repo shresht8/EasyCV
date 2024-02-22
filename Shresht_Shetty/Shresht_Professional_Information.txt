@@ -34,7 +34,7 @@ Data Science and Machine Learning:
 
 ---------------------------------------------------------------------------------------------------
 
-Experience
+Experience:
 
 Data Scientist - BlueSky Creations (logo file: bsc.jpg)
 August 2021 - Present (2 years 3 months)
@@ -79,7 +79,7 @@ Collaborated with the marketing team at UQ Business school to improve the data c
 
 ---------------------------------------------------------------------------------------------------
 
-Education
+Education:
 
 Masters in Data Science - The University of Queensland (logo file: uq.jpg)
 2018 - 2020
@@ -89,7 +89,7 @@ Bachelors in Chemical Engineering - Manipal Institute of Technology (logo file: 
 
 ---------------------------------------------------------------------------------------------------
 
-Licenses & Certifications
+Licenses & Certifications:
 
 - Machine Learning Engineering for Production (MLOps) - Coursera - Dec 2021
 - AWS Solutions Architect Associate - Amazon Web Services - Issued Jan 2021 Expires Jan 2024

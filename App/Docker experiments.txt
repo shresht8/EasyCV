@@ -47,7 +47,7 @@ Testing:
 {
   "arg1": "cv_templates/cv_template_3",
   "arg2": "user/Shresht_Shetty",
-  "arg3": "https://www.seek.com.au/job/71463522?ref=search-standalone&type=standout#sol=4c4b4c3c4b38f6557ec6488d11d7134b09543274",
+  "arg3": "https://www.seek.com.au/job/73015372?ref=search-standalone&type=standout#sol=c39c571092d120b933c7c4e717078f095d830580",
   "arg4": "/app/output"
 }
 

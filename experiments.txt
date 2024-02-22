@@ -25,6 +25,6 @@ JSON input arguments
 {
   "arg1": "cv_templates/cv_template_3",
   "arg2": "user/Shresht_Shetty",
-  "arg3": "https://www.seek.com.au/job/70775749?type=standard#sol=6316ea8dd7ce7aba0be8ce462262819dffcbbb24",
+  "arg3": "https://www.seek.com.au/job/72932991?ref=search-standalone&type=standout#sol=8ba1705a95946721dde02290a2ca582dfa7c8012",
   "arg4": "./output"
 }

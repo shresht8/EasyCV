@@ -40,3 +40,9 @@ kubectl get deployments
 4) Restart deployments - After some changes have been made:
 kubectl rollout restart deployment 
 
+To do work:
+
+1) Send API to send PDF/ logs to front end
+
+2) Checking logs of the container in the cluster
+

@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: python-app
-          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
-          imagePullPolicy: Always #IfNotPresent if image tag is not latest
+          image: python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
+          imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
           ports:
             - containerPort: 8000
           volumeMounts:
@@ -34,15 +34,20 @@ spec:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
         - name: latex-app
-          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
-          imagePullPolicy: Always #IfNotPresent if image tag is not latest
+          image: latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
+          imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
           volumeMounts:
             - mountPath: /app/output
               name: shared-volume
+            - mountPath: /var/secrets/google
+              name: google-cloud-key
           resources:
             requests:
               memory: "1Gi"
               cpu: "500m"
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
       volumes:
         - name: shared-volume
           emptyDir: {}
@@ -50,4 +55,3 @@ spec:
           secret:
             secretName: gcloud-storage-auth-key
       restartPolicy: Always
-      

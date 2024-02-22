@@ -14,7 +14,11 @@ def upload_to_gcs(source_file_name, destination_blob_name):
     # bucket = storage_client.bucket(bucket_name)
     credentials, project = default()
     client = storage.Client(credentials=credentials, project='KeyProject')
-    bucket = client.get_bucket("easy-cv-bucket")
+    try:
+        bucket = client.get_bucket("easy-cv-bucket")
+        print("bucket loaded")
+    except Exception as e:
+        print("Bucket not found. Check google cloud installation or credentials")
     blob = Blob(destination_blob_name, bucket)
 
     blob.upload_from_filename(source_file_name)
@@ -28,8 +32,10 @@ def main():
     parser.add_argument('--success', action='store_true')
     parser.add_argument('--failure', action='store_true')
     args = parser.parse_args()
+    print(args)
     status_file_path = "/app/output/pdf_generation_status.txt"
     if args.success:
+        print("Sucess!Attempting to uploda to GCLOUD storage")
         # Logic for successful PDF generation
         # Assuming the PDF filename is known
         url = upload_to_gcs("/app/output/main.pdf", "main.pdf")
@@ -37,6 +43,7 @@ def main():
         status_message = f"Success: PDF generated successfully. Download link: {url}"
         write_status_to_file(status_message, status_file_path)
     elif args.failure:
+        print("PDF generation failed!")
         # Logic for failed PDF generation
         status_message = "Failure: PDF could not be generated."
         # Send notification of failure

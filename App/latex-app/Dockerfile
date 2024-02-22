@@ -10,10 +10,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy the entrypoint script into the container
-COPY entrypoint.sh /app/
+COPY entrypoint_final_v2.sh upload_script.py /app/
 
 # Ensure the script is executable
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/entrypoint_final_v2.sh
 
 # This command will execute the entrypoint script
-CMD ["/app/entrypoint.sh"]
+CMD ["/app/entrypoint_final_v2.sh"]
