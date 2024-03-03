@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: python-app
-          image: python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
+          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
           imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
           ports:
             - containerPort: 8000
@@ -28,23 +28,23 @@ spec:
               name: google-cloud-key
           resources:
             requests:
-              memory: "1Gi"
-              cpu: "500m"
+              memory: "500Mi"
+              cpu: "250m"
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
         - name: latex-app
-          image: latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
+          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
           imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
           volumeMounts:
             - mountPath: /app/output
               name: shared-volume
             - mountPath: /var/secrets/google
-              name: google-cloud-key
+              name: google-cloud-key-latex
           resources:
             requests:
-              memory: "1Gi"
-              cpu: "500m"
+              memory: "500Mi"
+              cpu: "250m"
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
@@ -54,4 +54,7 @@ spec:
         - name: google-cloud-key
           secret:
             secretName: gcloud-storage-auth-key
+        - name: google-cloud-key-latex
+          secret:
+            secretName: gcloud-storage-auth-key-latex
       restartPolicy: Always

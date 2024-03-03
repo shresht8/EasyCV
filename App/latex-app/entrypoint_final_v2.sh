@@ -51,7 +51,7 @@ log_message "Script started"
                     gcloud storage cp "${PDF_FILE}" "gs://${BUCKET_NAME}" >> "$LOG_FILE" 2>&1
                     # Get a signed URL for the uploaded PDF
                     log_message "Generating signed URL for ${PDF_FILE}..."
-                    gcloud storage sign-url "gs://${BUCKET_NAME}/${PDF_FILE}" --private-key-file="${PRIVATE_KEY_FILE}" --duration=10m >> "$LOG_FILE" 2>&1
+                    gcloud storage sign-url "gs://${BUCKET_NAME}/main.pdf" --private-key-file="${PRIVATE_KEY_FILE}" --duration=10m >> "$LOG_FILE" 2>&1
                 else
                     log_message "PDF generation failed after attempting both pdflatex and lualatex. Notifying the failure..."
                 fi

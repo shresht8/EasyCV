@@ -9,5 +9,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8000
-  type: NodePort # NodePort in local, LoadBalancer on cloud
+  type: LoadBalancer # NodePort in local, LoadBalancer on cloud
 
