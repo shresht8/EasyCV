@@ -1,3 +1,9 @@
+#Add documentation:
+# automate test to check if latex app and python app works
+# for latex: copy main.tex, support_class.cls to /app/output dir, bash into the container and check if signed_URL is there
+# for python: check if main.tex file gets generated in /app/output dir, check logs to see if any fail points
+
+
 1) minikube start # Starts cluster
 
 2) minikube docker-env # This command gives set of environment variables to connect to minikube docker daemon rather than local docker Daemon
@@ -5,7 +11,8 @@
 3) #Run all commands from output of 2)
 
 4) Write manifest file for python-app deployment, latex-app deployment, python-app service (since this is exposed) and persistent volume claim.
-	Note: Use imagePullPolicy: IfNotPresent if docker images used have tags as 'latest'
+	Note: Use imagePullPolicy: IfNotPresent if docker images are already there in the local docker registry. If not, use 'Always' as it will pull from the authenticated registry.
+				   In Gcloud, use 'Always' since it has to always pull the image from the Google Artifactory since it is not readily available in the instance registry itself.
 
 5) docker build -t python-app:latest ./python-app # Build python image in minikube docker daemon;
 						  # If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
@@ -22,32 +29,26 @@ minikube service python-app-service
 
 Note: To run on local, mount output directory to /app/output: minikube mount output:/app/output
 
-Testing:
-
-----------------------------------------------------------------------------------------------------------------------
-
-{
-  "arg1": "cv_templates/cv_template_3",
-  "arg2": "user/Shresht_Shetty",
-  "arg3": "https://www.seek.com.au/job/73015372?ref=search-standalone&type=standout#sol=c39c571092d120b933c7c4e717078f095d830580",
-  "arg4": "/app/output"
-}
-
-----------------------------------------------------------------------------------------------------------------------
-
-
 8) Check if pods are running: kubectl get pods
 
-9) If pods are running, start the python service using: minikube service python-app-service
+9) To authenticate gcloud login latex-app:
+a) kubectl exec -it <easycv-app-deployment pod name> -c latex-app -- /bin/bash
+b) Inside the shell run, gcloud auth login. Go to link and copy authorization code
+c) Change current project using: gcloud config set project keyproject-401005
+
+10) If pods are running, start the python service using: minikube service python-app-service
 
 Some useful commands:
 a) Restart deployments using:
-kubectl delete pods latex-app-deployment-8758845fd-b6mz2 # Delete a pod so that image can be pulled again
 kubectl rollout restart deployment python-app-deployment
 kubectl rollout restart deployment latex-app-deployment
 
-b) To describe deployments:
-kubectl describe deployment python-app-deployment
+b) To describe pods:
+kubectl describe pods <easycv-app-deployment pod name>
+Using above command you can observe the following things:
+- State of the containers (Running, Terminated et). If containers are 'Running' then it can be used
+- Environment variables that have been set for the containers. Can be used for authentication
+- Volume mounts available for the containers: To verify if secrets have been properly applied, shared volume has been applied
 
 c)Start an interactive shell session in a pod 
 For latex app: kubectl exec -it <eascv pod name> -c latex-app -- /bin/bash
@@ -63,9 +64,25 @@ When rolling out a new image follow the below steps:
 2) minikube start - to start kubbernetes container
 3) minikube docker-env - to point kubernetes container to the local docker registry
 This should update the image, to check 
-4) minikube exec -it <easycv-app-deployment> -c latex-app -- /bin/bash
+4) kubectl exec -it <easycv-app-deployment> -c latex-app -- /bin/bash
 5) cat entrypoint_final_v2.sh
 
+f) To copy a file from local to a pod:
+kubectl cp .\main.tex easycv-app-deployment-99b57b4b7-djdjs:/app/main.tex -c latex-app
+(replace with python-app if needed)
+
+Testing:
+
+----------------------------------------------------------------------------------------------------------------------
+
+{
+  "arg1": "cv_templates/cv_template_3",
+  "arg2": "user/Shresht_Shetty",
+  "arg3": "https://www.seek.com.au/job/73015372?ref=search-standalone&type=standout#sol=c39c571092d120b933c7c4e717078f095d830580",
+  "arg4": "/app/output"
+}
+
+----------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -119,21 +136,5 @@ Testing:
   "arg3": "https://www.seek.com.au/job/73015372?ref=search-standalone&type=standout#sol=c39c571092d120b933c7c4e717078f095d830580",
   "arg4": "/app/output"
 }
-
-----------------------------------------------------------------------------------------------------------------------
-
-Important cluster  commands:
-
-1) Stopping and starting a cluster:
-
-
-2) Check status of pods:
-kubectl get pods
-
-3) Check status of deployments:
-kubectl get deployments
-
-4) Restart deployments - After some changes have been made:
-kubectl rollout restart deployment 
 
 ----------------------------------------------------------------------------------------------------------------------
