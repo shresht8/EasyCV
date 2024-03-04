@@ -27,4 +27,4 @@ COPY entrypoint_final_v2.sh upload_script.py /app/
 RUN chmod +x /app/entrypoint_final_v2.sh
 
 # This command will execute the entrypoint script
-CMD ["/app/entrypoint_final_v2.sh"]
+CMD ["/app/entrypoint_final.sh"]
