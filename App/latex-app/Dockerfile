@@ -21,10 +21,10 @@ RUN apt-get update
 RUN apt-get install -y google-cloud-cli
 
 # Copy the entrypoint script into the container
-COPY entrypoint_final_v2.sh upload_script.py /app/
+COPY entrypoint_final.sh /app/
 
 # Ensure the script is executable
-RUN chmod +x /app/entrypoint_final_v2.sh
+RUN chmod +x /app/entrypoint_final.sh
 
 # This command will execute the entrypoint script
 CMD ["/app/entrypoint_final.sh"]
