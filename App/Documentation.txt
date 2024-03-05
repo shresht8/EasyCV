@@ -132,7 +132,7 @@ Testing:
 ----------------------------------------------------------------------------------------------------------------------
 
 {
-  "arg1": "cv_templates/cv_template_3",
+  "arg1": "cv_templates/cv_template_1",
   "arg2": "user/Shresht_Shetty",
   "arg3": "https://www.seek.com.au/job/73935711?ref=search-standalone&type=standout#sol=6dd4bb810629dc6a15bc5b5a1ad713732f10282e",
   "arg4": "/app/output"

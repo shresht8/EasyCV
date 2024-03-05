@@ -34,6 +34,7 @@ spec:
             requests:
               memory: "500Mi"
               cpu: "250m"
+              ephemeral-storage: "200Mi"
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
@@ -49,6 +50,7 @@ spec:
             requests:
               memory: "500Mi"
               cpu: "250m"
+              ephemeral-storage: "200Mi"
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
