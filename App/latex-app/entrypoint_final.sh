@@ -49,7 +49,7 @@ log_message "Script started"
                 # Check if PDF was generated
                 if [ $PDF_GENERATED -eq 1 ]; then
                     TIMESTAMP=$(date +%Y%m%d%H%M%S)
-                    PDF_FILENAME="main_${TIMESTAMP}.pdf"
+                    PDF_FILENAME="main.pdf"
                     PDF_FILE="${DIR}/${PDF_FILENAME}"
                     BUCKET_PATH="gs://${BUCKET_NAME}/${PDF_FILENAME}"
                     if [ -f "$PDF_FILE" ]; then

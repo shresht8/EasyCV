@@ -15,7 +15,7 @@ from langchain.chains.openai_functions import (
     create_openai_fn_chain,
     create_structured_output_chain,
 )
-import argparse
+import tempfile
 
 class JobDescription(BaseModel):
     """Extracting detailed information about a job description parsed from HTML text
@@ -44,7 +44,7 @@ class BotCreateCV():
         self.latex_input_path = latex_input_path
         self.user_info_path = user_info_path
         self.job_desc_link = job_desc_link
-        self.output_path = output_path
+        self.output_path = self.create_temp_dir(output_path)
         self.init_gloud()
         self.preprocess_user_date()
         self.scrape_job_desc()
@@ -52,6 +52,20 @@ class BotCreateCV():
         self.read_job_desc()
         self.download_bucket_folder()
 
+    def create_temp_dir(self,shared_output_path):
+        """
+        Creates a temporary sub-directory within the specified parent path.
+
+        :param shared_output_path: The path of the parent directory where the temporary directory will be created.
+        :return: The path of the newly created temporary directory.
+        """
+        # Ensure the parent path exists
+        if not os.path.exists(shared_output_path):
+            raise ValueError(f"The specified parent path does not exist: {shared_output_path}")
+        # Create a temporary directory within the specified parent path and return its name
+        temp_dir_path = tempfile.mkdtemp(dir=shared_output_path)
+        print(f"Temporary directory created at: {temp_dir_path}")
+        return temp_dir_path
 
     def init_gloud(self):
         try:

@@ -1,3 +1,7 @@
+#TODO:
+# 1. Limit the storage of the shared volume to save costs
+# 2. De-provision the IP address when not used
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
