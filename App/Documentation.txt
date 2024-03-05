@@ -60,12 +60,13 @@ kubectl cp easycv-app-deployment-99b57b4b7-djdjs:/app/output/main.pdf ./main.pdf
 e) To delete all files from a directory in cluster: rm -rf * (Inside the interactive shell)
 
 When rolling out a new image follow the below steps:
-1) docker build -t latex-app:latest ./latex-app - to build the docker image in repository
-2) minikube start - to start kubbernetes container
-3) minikube docker-env - to point kubernetes container to the local docker registry
+1) minikube start - to start kubbernetes container
+2) minikube docker-env - to point kubernetes container to the local docker registry
+3) docker build -t latex-app:latest ./latex-app - to build the docker image in repository
+4) kubectl rollout restart deployment easycv-app-deployment
 This should update the image, to check 
 4) kubectl exec -it <easycv-app-deployment> -c latex-app -- /bin/bash
-5) cat entrypoint_final_v2.sh
+5) cat entrypoint_final.sh (or the file with the change)
 
 f) To copy a file from local to a pod:
 kubectl cp .\main.tex easycv-app-deployment-99b57b4b7-djdjs:/app/main.tex -c latex-app
