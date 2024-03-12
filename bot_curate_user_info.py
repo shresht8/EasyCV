@@ -41,5 +41,16 @@ class CurateUserInfo:
 
 if __name__ == "__main__":
     os.environ["OPENAI_API_KEY"] = "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"
-    curate_user_info_obj = CurateUserInfo(".\\Shresht_Shetty")
-    curate_user_info_obj.generate_output()
+    # Get a list of users
+    path_user_data = ".\\User_Profiles"
+    list_users = [
+        t
+        for t in os.listdir(path_user_data)
+        if os.path.isdir(os.path.join(path_user_data, t))
+    ]
+    for user in list_users:
+        path_user = os.path.join(path_user_data, user)
+        bot_user_obj = CurateUserInfo(path_user)
+        bot_user_obj.generate_output()
+    # curate_user_info_obj = CurateUserInfo(".\\Shresht_Shetty")
+    # curate_user_info_obj.generate_output()

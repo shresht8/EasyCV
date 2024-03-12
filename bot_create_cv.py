@@ -10,6 +10,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.chains.openai_functions import (
     create_openai_fn_chain,
     create_structured_output_chain,
+    create_extraction_chain_pydantic
 )
 import argparse
 
@@ -58,7 +59,7 @@ class BotCreateCV:
     def preprocess_user_date(self):
         """reads and preprocesses user info, add logo metadata to user info doc"""
         with open(
-            os.path.join(self.user_info_path, "User_Professional_Information.txt"),
+            os.path.join(self.user_info_path, "Curated_User_Information.txt"),
             "r",
             encoding="utf-8",
         ) as file:
@@ -108,10 +109,10 @@ class BotCreateCV:
             ]
         )
 
-        chain = create_structured_output_chain(
+        chain = create_extraction_chain_pydantic(
             JobDescription, llm, prompt, verbose=True
         )
-        job_description = chain.run(html_text[0].page_content)
+        job_description = chain.invoke(html_text[0].page_content)
         return job_description
 
     def write_jd_to_txt(self, job_desc: JobDescription):
