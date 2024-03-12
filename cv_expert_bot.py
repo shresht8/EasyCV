@@ -1,7 +1,7 @@
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 import os
-from PROMPT_FILE import LATEX_PROMPT, CHECK_SYNTAX_PROMPT
+from PROMPT_FILE import LATEX_PROMPT
 from langchain.chat_models import ChatOpenAI
 from langchain.llms import OpenAI
 from langchain.chains import SequentialChain
@@ -42,19 +42,6 @@ class CVExpertBot:
                 template=LATEX_PROMPT,
             ),
             output_key="input_latex_code",
-        )
-        self.correction_chain = LLMChain(
-            llm=llm,
-            prompt=PromptTemplate(
-                input_variables=["input_latex_code"], template=CHECK_SYNTAX_PROMPT
-            ),
-            output_key="output_latex_code",
-        )
-        self.overall_chain = SequentialChain(
-            chains=[self.llm_chain, self.correction_chain],
-            input_variables=["LATEX_CODE", "USER_INFORMATION", "JOB_INFORMATION"],
-            output_variables=["output_latex_code"],
-            verbose=True,
         )
 
     def generate_latex_output(self, path):
