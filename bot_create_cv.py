@@ -1,5 +1,4 @@
 from cv_expert_bot import CVExpertBot
-import requests
 from langchain.document_loaders import AsyncHtmlLoader
 from langchain.document_transformers import Html2TextTransformer
 from langchain.pydantic_v1 import BaseModel, Field
@@ -8,9 +7,7 @@ import os
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains.openai_functions import (
-    create_openai_fn_chain,
-    create_structured_output_chain,
-    create_extraction_chain_pydantic
+    create_extraction_chain_pydantic,
 )
 import argparse
 

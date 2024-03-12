@@ -1,11 +1,10 @@
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
 import os
 from PROMPT_FILE import LATEX_PROMPT
 from langchain.chat_models import ChatOpenAI
-from langchain.llms import OpenAI
-from langchain.chains import SequentialChain
+from langchain_core.prompts import ChatPromptTemplate
 from transformers import GPT2Tokenizer
+from operator import itemgetter
+from langchain_core.output_parsers import StrOutputParser
 
 # Initialize the tokenizer
 
@@ -35,23 +34,36 @@ class CVExpertBot:
     def __create_llm_chain(self):
         """initializes the llm chain"""
         llm = ChatOpenAI(model_name="gpt-4", temperature=0)
-        self.llm_chain = LLMChain(
-            llm=llm,
-            prompt=PromptTemplate(
-                input_variables=["LATEX_CODE", "USER_INFORMATION", "JOB_INFORMATION"],
-                template=LATEX_PROMPT,
-            ),
-            output_key="input_latex_code",
+        prompt = ChatPromptTemplate.from_template(LATEX_PROMPT)
+        self.llm_chain = (
+            {
+                "LATEX_CODE": itemgetter("LATEX_CODE"),
+                "USER_INFORMATION": itemgetter("USER_INFORMATION"),
+                "JOB_INFORMATION": itemgetter("JOB_INFORMATION"),
+            }
+            | prompt
+            | llm
+            | StrOutputParser()
         )
+        # self.llm_chain = LLMChain(
+        #     llm=llm,
+        #     prompt=PromptTemplate(
+        #         input_variables=["LATEX_CODE", "USER_INFORMATION", "JOB_INFORMATION"],
+        #         template=LATEX_PROMPT,
+        #     ),
+        #     output_key="input_latex_code",
+        # )
 
     def generate_latex_output(self, path):
         """generates customised latex output using the llm chain"""
         # output_str = self.overall_chain({"LATEX_CODE":self.latex_code_str, "USER_INFORMATION": self.user_info_str,
         #                                  "JOB_INFORMATION":self.job_desc_str})
-        output_str = self.llm_chain.predict(
-            LATEX_CODE=self.latex_code_str,
-            USER_INFORMATION=self.user_info_str,
-            JOB_INFORMATION=self.job_desc_str,
+        output_str = self.llm_chain.invoke(
+            {
+                "LATEX_CODE": self.latex_code_str,
+                "USER_INFORMATION": self.user_info_str,
+                "JOB_INFORMATION": self.job_desc_str,
+            }
         )
         input_str = LATEX_PROMPT.format(
             LATEX_CODE=self.latex_code_str,
