@@ -23,7 +23,7 @@ class CurateUserInfo:
             | StrOutputParser()
         )
 
-    def generate_output(self, output_path):
+    def generate_output(self):
         with open(
             os.path.join(self.user_info_path, "User_Professional_Information.txt"),
             "r",
@@ -37,3 +37,9 @@ class CurateUserInfo:
             encoding="utf-8",
         ) as file:
             file.write(output_str)
+
+
+if __name__ == "__main__":
+    os.environ["OPENAI_API_KEY"] = "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"
+    curate_user_info_obj = CurateUserInfo(".\\Shresht_Shetty")
+    curate_user_info_obj.generate_output()
