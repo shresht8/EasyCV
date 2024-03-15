@@ -11,6 +11,10 @@ from langchain.chains.openai_functions import (
 )
 import argparse
 
+# from langchain_community.document_loaders import AsyncHtmlLoader
+# from langchain_community.document_transformers import Html2TextTransformer
+# from langchain_openai import ChatOpenAI
+
 
 class JobDescription(BaseModel):
     """Extracting detailed information about a job description parsed from HTML text

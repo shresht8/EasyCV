@@ -6,6 +6,7 @@ from transformers import GPT2Tokenizer
 from operator import itemgetter
 from langchain_core.output_parsers import StrOutputParser
 
+# from langchain_openai import ChatOpenAI
 # Initialize the tokenizer
 
 
