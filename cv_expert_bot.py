@@ -1,5 +1,6 @@
 import os
 from PROMPT_FILE import LATEX_PROMPT
+from PROMPT_FILE import test_prompt
 from langchain.chat_models import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from transformers import GPT2Tokenizer
@@ -11,67 +12,48 @@ from langchain_core.output_parsers import StrOutputParser
 
 
 class CVExpertBot:
-    def __init__(self, user_name, user_info_str, job_desc_str, latex_code_str):
+    def __init__(self, user_name, user_info_str, cv_prompt_str):
+        self.test_prompt_full = None
         self.user_name = user_name
         self.user_info_str = user_info_str
-        self.job_desc_str = job_desc_str
-        self.latex_code_str = latex_code_str
+        self.cv_prompt_str = cv_prompt_str
         self.__create_llm_chain()
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.count_input_tokens()
+        self.test_prompt = test_prompt.format(TEST_USER_INPUT=user_info_str)
+        self.create_prompt_full()
 
     def count_input_tokens(self):
-        formatted_prompt = LATEX_PROMPT.format(
-            LATEX_CODE=self.latex_code_str,
-            USER_INFORMATION=self.user_info_str,
-            JOB_INFORMATION=self.job_desc_str,
-        )
+        formatted_prompt = self.test_prompt
         # Tokenize and count
         tokenized_prompt = self.tokenizer.encode(formatted_prompt)
         number_of_tokens = len(tokenized_prompt)
 
         print(f"Number of tokens in the prompt: {number_of_tokens}")
 
+    def create_prompt_full(self):
+        self.test_prompt_full = self.cv_prompt_str + self.test_prompt
+
     def __create_llm_chain(self):
         """initializes the llm chain"""
-        llm = ChatOpenAI(model_name="gpt-4", temperature=0)
-        prompt = ChatPromptTemplate.from_template(LATEX_PROMPT)
+        llm = ChatOpenAI(model_name="gpt-4-0125-preview", temperature=0)
+        system_prompt = """System Prompt: {System_prompt}"""
+        prompt = ChatPromptTemplate.from_template(system_prompt)
         self.llm_chain = (
             {
-                "LATEX_CODE": itemgetter("LATEX_CODE"),
-                "USER_INFORMATION": itemgetter("USER_INFORMATION"),
-                "JOB_INFORMATION": itemgetter("JOB_INFORMATION"),
+                "System_prompt": itemgetter("system_prompt"),
             }
             | prompt
             | llm
             | StrOutputParser()
         )
-        # self.llm_chain = LLMChain(
-        #     llm=llm,
-        #     prompt=PromptTemplate(
-        #         input_variables=["LATEX_CODE", "USER_INFORMATION", "JOB_INFORMATION"],
-        #         template=LATEX_PROMPT,
-        #     ),
-        #     output_key="input_latex_code",
-        # )
 
     def generate_latex_output(self, path):
         """generates customised latex output using the llm chain"""
         # output_str = self.overall_chain({"LATEX_CODE":self.latex_code_str, "USER_INFORMATION": self.user_info_str,
         #                                  "JOB_INFORMATION":self.job_desc_str})
-        output_str = self.llm_chain.invoke(
-            {
-                "LATEX_CODE": self.latex_code_str,
-                "USER_INFORMATION": self.user_info_str,
-                "JOB_INFORMATION": self.job_desc_str,
-            }
-        )
-        input_str = LATEX_PROMPT.format(
-            LATEX_CODE=self.latex_code_str,
-            USER_INFORMATION=self.user_info_str,
-            JOB_INFORMATION=self.job_desc_str,
-        )
-        self.count_output_tokens(output_str)
+        output_str = self.llm_chain.invoke({"system_prompt": self.test_prompt_full})
+        self.count_output_tokens(self.test_prompt_full)
         with open(
             os.path.join(path, "{name}_CV.tex".format(name=self.user_name)),
             "w",
@@ -79,7 +61,6 @@ class CVExpertBot:
         ) as tex_file:
             # with open(os.path.join(path, 'main.tex'.format(name=self.user_name)), 'w', encoding='utf-8') as tex_file:
             tex_file.write(output_str)
-        return input_str
 
     def count_output_tokens(self, output_string):
         # Tokenize and count
