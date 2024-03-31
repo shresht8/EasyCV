@@ -31,20 +31,25 @@ log_message "Script started"
             log_message "Change detected in $FILEPATH"
 
             if [[ "$FILE" == "main.tex" ]]; then
-                log_message "Found main.tex in $DIR. Attempting to compile with pdflatex."
-                pushd "$DIR"
-                if pdflatex "$FILE" >> "$LOG_FILE" 2>&1; then
-                    PDF_GENERATED=1
-                    log_message "pdflatex successfully generated PDF for $FILE in $DIR."
+                # Read the compilation type from compilation_type.txt file
+                COMPILATION_TYPE_FILE="$DIR/compilation_type.txt"
+                if [[ -f "$COMPILATION_TYPE_FILE" ]]; then
+                    COMPILATION_TYPE=$(<"$COMPILATION_TYPE_FILE")
                 else
-                    log_message "pdflatex failed to compile $FILE in $DIR. Trying with lualatex."
-                    if lualatex "$FILE" >> "$LOG_FILE" 2>&1; then
-                        PDF_GENERATED=1
-                        log_message "lualatex successfully generated PDF for $FILE in $DIR."
-                    else
-                        log_message "Both pdflatex and lualatex failed to compile $FILE in $DIR."
-                    fi
+                    # If compilation_type.txt doesn't exist or is empty, default to pdflatex
+                    COMPILATION_TYPE="pdflatex"
                 fi
+
+                log_message "Found main.tex in $DIR. Attempting to compile with $COMPILATION_TYPE."
+                pushd "$DIR"
+                # Use the specified LaTeX compiler
+                if "$COMPILATION_TYPE" "$FILE" >> "$LOG_FILE" 2>&1; then
+                    PDF_GENERATED=1
+                    log_message "$COMPILATION_TYPE successfully generated PDF for $FILE in $DIR."
+                else
+                    log_message "$COMPILATION_TYPE failed to compile $FILE in $DIR."
+                fi
+                popd
 
                 # Check if PDF was generated
                 if [ $PDF_GENERATED -eq 1 ]; then

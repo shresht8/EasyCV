@@ -85,7 +85,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="generates CV latex code")
     parser.add_argument("arg1", help="Name of user")
     parser.add_argument("arg2", help="Path to user info directory")
-    parser.add_argument("arg4", help="CV Template path")
+    parser.add_argument("arg3", help="CV Template path")
     args = parser.parse_args()
     os.environ["OPENAI_API_KEY"] = "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"
     bot_create_cv = BotCreateCV(args.arg1, args.arg2, args.arg3)

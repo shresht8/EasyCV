@@ -19,8 +19,8 @@ class CVExpertBot:
         self.cv_prompt_str = cv_prompt_str
         self.__create_llm_chain()
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-        self.count_input_tokens()
         self.test_prompt = test_prompt.format(TEST_USER_INPUT=user_info_str)
+        self.count_input_tokens()
         self.create_prompt_full()
 
     def count_input_tokens(self):
@@ -55,7 +55,7 @@ class CVExpertBot:
         output_str = self.llm_chain.invoke({"system_prompt": self.test_prompt_full})
         self.count_output_tokens(self.test_prompt_full)
         with open(
-            os.path.join(path, "{name}_CV.tex".format(name=self.user_name)),
+            os.path.join(path, "{name}_CV_v1.tex".format(name=self.user_name)),
             "w",
             encoding="utf-8",
         ) as tex_file:
