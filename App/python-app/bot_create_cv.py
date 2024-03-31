@@ -1,48 +1,8 @@
-import time
-
 from cv_expert_bot import CVExpertBot
 from google.auth import default
 from google.cloud import storage
-import requests
-from langchain.document_loaders import AsyncHtmlLoader
-from langchain.document_transformers import Html2TextTransformer
-from langchain.pydantic_v1 import BaseModel, Field
-from typing import Optional
 import os
-from langchain.chat_models import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
-from langchain.chains.openai_functions import (
-    create_openai_fn_chain,
-    create_structured_output_chain,
-)
 import tempfile
-
-
-class JobDescription(BaseModel):
-    """Extracting detailed information about a job description parsed from HTML text
-    containing some relevant and some irrelevant text"""
-
-    job_title: str = Field(..., description="The job title/position offered by company")
-    job_overview: str = Field(..., description="Overview of the job")
-    company_name: str = Field(..., description="Company name offering the job")
-    about_company: str = Field(..., description="About the company")
-    job_responsibilities: str = Field(
-        ..., description="responsibilities of the role. Use bullet points if possible"
-    )
-    job_requirements: str = Field(
-        ...,
-        description="requirements/experience/ to get the job. Use bullet points if you "
-        "can",
-    )
-    skills_required: Optional[str] = Field(
-        None, description="skills required for the job. Use bullet points if you can"
-    )
-    salary_range: Optional[int] = Field(None, description="salary range for the job")
-    company_perks: Optional[str] = Field(
-        None,
-        description="Benefits offered by the company for the role. Use bullet "
-        "points if you can",
-    )
 
 
 class BotCreateCV:
@@ -171,7 +131,7 @@ class BotCreateCV:
         CV_EXPERT_BOT = CVExpertBot(
             self.user_name, self.user_info_str, self.cv_prompt_str
         )
-        CV_EXPERT_BOT.generate_latex_output(self.cv_template_path)
+        CV_EXPERT_BOT.generate_latex_output(self.output_path)
         # CV_EXPERT_BOT.compile_tex_file(self.cv_template_path)
 
 
