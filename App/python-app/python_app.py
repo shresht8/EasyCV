@@ -28,7 +28,9 @@ async def generate_cv(request: CVRequest):
         ] = "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"
 
         # Initialize the bot with provided arguments
-        bot_create_cv = BotCreateCV(request.arg1, request.arg2, request.arg3)
+        bot_create_cv = BotCreateCV(
+            request.arg1, request.arg2, request.arg3, request.arg4
+        )
 
         # Process the request
         bot_create_cv.generate_cv()

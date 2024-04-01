@@ -77,10 +77,10 @@ Testing:
 ----------------------------------------------------------------------------------------------------------------------
 
 {
-  "arg1": "cv_templates/cv_template_3",
+  "arg1": "Shresht",
   "arg2": "user/Shresht_Shetty",
-  "arg3": "https://www.seek.com.au/job/73015372?ref=search-standalone&type=standout#sol=c39c571092d120b933c7c4e717078f095d830580",
-  "arg4": "/app/output"
+  "arg3": "cv_templates/cv_template_11",
+  "arg4": "xelatex"
 }
 
 ----------------------------------------------------------------------------------------------------------------------
