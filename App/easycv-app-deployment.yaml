@@ -22,7 +22,7 @@ spec:
       containers:
         - name: python-app
           image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
-          imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
+          imagePullPolicy: IfNotPresent #IfNotPresent if image tag is not latest, Always otherwise
           ports:
             - containerPort: 8000
           volumeMounts:
@@ -40,7 +40,7 @@ spec:
               value: /var/secrets/google/key.json
         - name: latex-app
           image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
-          imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
+          imagePullPolicy: IfNotPresent #IfNotPresent if image tag is not latest, Always otherwise
           volumeMounts:
             - mountPath: /app/output
               name: shared-volume
