@@ -1,10 +1,11 @@
 from cv_expert_bot import CVExpertBot
-from langchain.document_loaders import AsyncHtmlLoader
-from langchain.document_transformers import Html2TextTransformer
+from langchain_community.document_loaders import AsyncHtmlLoader
+# from langchain.document_loaders import AsyncHtmlLoader
+from langchain_community.document_transformers import Html2TextTransformer
 from langchain.pydantic_v1 import BaseModel, Field
 from typing import Optional
 import os
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains.openai_functions import (
     create_extraction_chain_pydantic,
@@ -69,6 +70,7 @@ class BotCreateCV:
         if self.cl_template_path:
             self.scrape_job_desc()
             self.read_job_desc()
+            self.read_cl_template()
 
     def preprocess_user_date(self):
         """reads and preprocesses user info, add logo metadata to user info doc"""
@@ -87,7 +89,7 @@ class BotCreateCV:
 
     def read_cl_template(self):
         """reads the main tex file as the latex template for the model"""
-        with open(os.path.join(self.cv_template_path, "main.tex"), "rb") as file:
+        with open(os.path.join(self.cl_template_path, "main.tex"), "rb") as file:
             cl_prompt_bytes = file.read()
         self.cl_prompt_str = cl_prompt_bytes.decode("utf-8")
 
@@ -110,7 +112,7 @@ class BotCreateCV:
             html2text = Html2TextTransformer()
             docs_transformed = html2text.transform_documents(docs)
             job_desc_obj = self.html_to_schema(docs_transformed)
-            self.write_jd_to_txt(job_desc_obj)
+            self.write_jd_to_txt(job_desc_obj["text"][0])
 
     def html_to_schema(self, html_text):
         """Extracts schema of job description from HTML to given schema"""
@@ -180,27 +182,48 @@ class BotCreateCV:
         CV_EXPERT_BOT = CVExpertBot(
             user_name=self.user_name,
             user_info_str=self.user_info_str,
-            cover_letter_template_str=self.cl_prompt_str,
+            cl_template_str=self.cl_prompt_str,
             jd_str=self.job_desc_str,
         )
         CV_EXPERT_BOT.generate_cl_output(self.cl_template_path)
 
 
+def none_or_str(value):
+    if value == "None":
+        return None
+    return value
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="generates CV latex code")
-    parser.add_argument("arg1", help="Name of user")
-    parser.add_argument("arg2", help="Path to user info directory")
-    parser.add_argument("arg3", nargs="?", default=None, help="CV Template path")
-    parser.add_argument("arg4", nargs="?", default=None, help="CL Template path")
-    parser.add_argument("arg5", nargs="?", default=None, help="Job description link")
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description="generates CV latex code")
+    # parser.add_argument("arg1", help="Name of user")
+    # parser.add_argument("arg2", help="Path to user info directory")
+    # parser.add_argument(
+    #     "arg3", nargs="?", type=none_or_str, default=None, help="CV Template path"
+    # )
+    # parser.add_argument(
+    #     "arg4", nargs="?", type=none_or_str, default=None, help="CL Template path"
+    # )
+    # parser.add_argument(
+    #     "arg5", nargs="?", type=none_or_str, default=None, help="Job description link"
+    # )
+    # args = parser.parse_args()
     os.environ["OPENAI_API_KEY"] = "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"
-    bot_create_cv = BotCreateCV(args.arg1, args.arg2, args.arg3, args.arg4, args.arg5)
-    print("args passed")
-    if args.arg3:
-        bot_create_cv.generate_cv()
-        print("cv pipeline completed")
-    if args.arg4:
-        bot_create_cv.generate_cl()
-        print("cl pipeline completed")
-    print("Run completed")
+    # bot_create_cv = BotCreateCV(args.arg1, args.arg2, args.arg3, args.arg4, args.arg5)
+    # Debugging code
+    bot_create_cv = BotCreateCV(
+        "Shresht",
+        ".\\User_Profiles\\Shresht_Shetty",
+        None,
+        ".\\Cover_letter_templates\\CL_Template_1",
+        "https://www.seek.com.au/job/74886756?ref=search-standalone&type=standard&origin=jobTitle#sol=c92eb08e8f7b1238a7a10735e38fb5d09dcba169",
+    )
+    bot_create_cv.generate_cl()
+    # print("args passed")
+    # if args.arg3:
+    #     bot_create_cv.generate_cv()
+    #     print("cv pipeline completed")
+    # if args.arg4:
+    #     bot_create_cv.generate_cl()
+    #     print("cl pipeline completed")
+    # print("Run completed")

@@ -1,7 +1,7 @@
 import os
 from PROMPT_FILE import LATEX_PROMPT, COVER_LETTER_PROMPT
 from PROMPT_FILE import test_prompt
-from langchain.chat_models import ChatOpenAI
+from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from transformers import GPT2Tokenizer
 from operator import itemgetter
@@ -18,19 +18,23 @@ class CVExpertBot:
         user_info_str,
         cv_prompt_str: str = None,
         jd_str: str = None,
-        cover_letter_template_str: str = None,
+        cl_template_str: str = None,
     ):
+        self.job_desc_str = None
         self.test_prompt_full = None
         self.user_name = user_name
         self.user_info_str = user_info_str
         self.cv_prompt_str = cv_prompt_str
         self.jd_str = jd_str
-        self.cl_latex_str = cover_letter_template_str
-        self.__create_llm_chain()
+        self.cl_latex_str = cl_template_str
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-        self.test_prompt = test_prompt.format(TEST_USER_INPUT=user_info_str)
-        self.count_input_tokens()
-        self.create_prompt_full()
+        if self.cv_prompt_str:
+            self.__create_llm_chain()
+            self.test_prompt = test_prompt.format(TEST_USER_INPUT=user_info_str)
+            self.count_input_tokens()
+            self.create_prompt_full()
+        if self.cl_latex_str:
+            self._create_llm_chain_cl()
 
     def count_input_tokens(self):
         formatted_prompt = self.test_prompt
@@ -62,9 +66,9 @@ class CVExpertBot:
         prompt = ChatPromptTemplate.from_template(COVER_LETTER_PROMPT)
         self.llm_chain = (
             {
-                "LATEX_CODE": itemgetter("LATEX_CODE"),
-                "USER_INFORMATION": itemgetter("USER_INFORMATION"),
-                "JOB_INFORMATION": itemgetter("JOB_INFORMATION"),
+                "LATEX_TEMPLATE": itemgetter("LATEX_CODE"),
+                "USER": itemgetter("USER_INFORMATION"),
+                "JD": itemgetter("JOB_INFORMATION"),
             }
             | prompt
             | llm
