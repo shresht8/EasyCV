@@ -1,5 +1,5 @@
 import os
-from PROMPT_FILE import LATEX_PROMPT
+from PROMPT_FILE import LATEX_PROMPT, COVER_LETTER_PROMPT
 from PROMPT_FILE import test_prompt
 from langchain.chat_models import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -16,7 +16,7 @@ class CVExpertBot:
         self,
         user_name,
         user_info_str,
-        cv_prompt_str,
+        cv_prompt_str: str = None,
         jd_str: str = None,
         cover_letter_template_str: str = None,
     ):
@@ -25,7 +25,7 @@ class CVExpertBot:
         self.user_info_str = user_info_str
         self.cv_prompt_str = cv_prompt_str
         self.jd_str = jd_str
-        self.cover_letter_str = cover_letter_template_str
+        self.cl_latex_str = cover_letter_template_str
         self.__create_llm_chain()
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.test_prompt = test_prompt.format(TEST_USER_INPUT=user_info_str)
@@ -58,12 +58,13 @@ class CVExpertBot:
         )
 
     def _create_llm_chain_cl(self):
-        llm = ChatOpenAI(model_name="gpt-4-0125-preview", temperature=0)
-        system_prompt = """System Prompt: {System_prompt}"""
-        prompt = ChatPromptTemplate.from_template(system_prompt)
-        self.llm_chain_cl = (
+        llm = ChatOpenAI(model_name="gpt-4", temperature=0)
+        prompt = ChatPromptTemplate.from_template(COVER_LETTER_PROMPT)
+        self.llm_chain = (
             {
-                "System_prompt": itemgetter("system_prompt"),
+                "LATEX_CODE": itemgetter("LATEX_CODE"),
+                "USER_INFORMATION": itemgetter("USER_INFORMATION"),
+                "JOB_INFORMATION": itemgetter("JOB_INFORMATION"),
             }
             | prompt
             | llm
@@ -78,6 +79,25 @@ class CVExpertBot:
         self.count_output_tokens(self.test_prompt_full)
         with open(
             os.path.join(path, "{name}_CV_v1.tex".format(name=self.user_name)),
+            "w",
+            encoding="utf-8",
+        ) as tex_file:
+            # with open(os.path.join(path, 'main.tex'.format(name=self.user_name)), 'w', encoding='utf-8') as tex_file:
+            tex_file.write(output_str)
+
+    def generate_cl_output(self, path):
+        """generates the cover letter latex output for the user"""
+        output_str = self.llm_chain.invoke(
+            {
+                "LATEX_CODE": self.cl_latex_str,
+                "USER_INFORMATION": self.user_info_str,
+                "JOB_INFORMATION": self.job_desc_str,
+            }
+        )
+
+        self.count_output_tokens(output_str)
+        with open(
+            os.path.join(path, "{name}_CL.tex".format(name=self.user_name)),
             "w",
             encoding="utf-8",
         ) as tex_file:
