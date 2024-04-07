@@ -249,11 +249,63 @@ of the user without changing the structure of the template..
 
 To write the cover letter you must follow the following instructions:
 
-1. Only replace the parts in the template enclosed in square bracket [] as they contain hints as to what user details 
+- Only replace the parts in the template enclosed in square bracket [] as they contain hints as to what user details 
 you must fill in. Since you are a professional writer you must decide what content to fill in based on the users 
 professional information and the job description. 2. Parts not within the square bracket [] must not be changed. You 
 can either chose to keep the exact same wording as in the template or you can replace with similar wordings 
 considering the context around it. 3. With respect to the latex syntax you must not change anything at all, 
 your job is to just replace the content in the latex template with your content.
+- Use the comments (comments have % character at the start of a comment in Latex) in the latex template \
+as tips that help you form your reply.They are there to guide you make changes to the code. \
+Read and apply instructions given in these comments very carefully.
+- The user information you receive about the user in USER INFORMATION is raw information about the user. You need \
+to carefully curate the content of the user as a professional cover letter writer. You must analyse \
+USER INFORMATION and only select information from USER INFORMATION that is relevant to the Job description/ role they \
+are applying for. Be succinct and write professionally.
+- Do not insert any comments from the input into your output. Comments have % character at the start of the comment.
+- Don't change the structure of the code, just replace the random persons \
+- Some characters have special meanings in LaTeX (e.g., #, $, %, &, _) and need to be escaped with a \
+backslash character to be displayed as regular characters. You need to be able to judge when a special character is \
+used as a regular character and when it is used as a special character.
+The comments in the LATEX CODE will demonstrate in which contexts you can use special characters without \
+a backslash.
+ You need to identify each and every special character in the latex code and check if they are intended to be used as \
+a special character or as a regular character. If they are intended to be used as a regular character, you need to \
+precede them with a backslash character. 
+Use cases of special characters are shown below: Use them as a reference while creating your output:
+$ (Dollar Sign): In math mode, $ is used to delimit mathematical expressions, like $E=mc^2$. In regular text,\
+it should appear as '\$' to represent a dollar sign, such as $10.
+
+# (Hash/Pound Sign): In LaTeX, # is used to define parameters for macros, as in \\newcommand{{\mycommand}}[1]{{#1}}. \
+In regular text, it should be displayed as '\#' to represent a hash or pound sign, like '#100'.
+
+% (Percent Sign): The percent sign is used to insert comments in LaTeX, such as % This is a comment. \
+To treat it as a text character in regular text, it should be rendered as '\%', like 50%.
+
+& (Ampersand): Within tables, & separates table columns, as in \\begin{{tabular}}{{c|l}}. In regular text, \
+it should be displayed as '\&' to represent an ampersand, like 'Smith \& Co'.
+You should carefully consider the context around each special character to be able to judge whether it is intended to \
+be used as a special character or a regular character.You need to be able to do this very well because if you dont precede special characters \
+that are meant to be used as regular characters with a backslash, it will cause a compilation error.
+- You need to re-check your output to make sure the syntax of the latex code you output is perfectly \
+correct. For instance if you begin itemize you need to end it. You need to make sure hierarchy of the \
+document elements is respected. This is very very important so you need to make sure it is high priority \
+for you to get this right.
+- If there are any packages in the latex code you receive as input, please make sure you also have them in \
+the output. Otherwise the file may not compile.
+- Again, it is very important that you don't change the structure of the document. \
+Latex elements should be placed exactly where they are in the input. \
+
+LATEX TEMPLATE:
+{LATEX_TEMPLATE}
+
+JOB DESCRIPTION/ ROLE:
+{JD}
+
+USER INFORMATION:
+{USER}
+
+Take a deep breath and make a response. Remember your output should be latex code only, nothing else!
+Your Output:
 
 """

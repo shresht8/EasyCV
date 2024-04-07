@@ -12,11 +12,20 @@ from langchain_core.output_parsers import StrOutputParser
 
 
 class CVExpertBot:
-    def __init__(self, user_name, user_info_str, cv_prompt_str):
+    def __init__(
+        self,
+        user_name,
+        user_info_str,
+        cv_prompt_str,
+        jd_str: str = None,
+        cover_letter_template_str: str = None,
+    ):
         self.test_prompt_full = None
         self.user_name = user_name
         self.user_info_str = user_info_str
         self.cv_prompt_str = cv_prompt_str
+        self.jd_str = jd_str
+        self.cover_letter_str = cover_letter_template_str
         self.__create_llm_chain()
         self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.test_prompt = test_prompt.format(TEST_USER_INPUT=user_info_str)
@@ -40,6 +49,19 @@ class CVExpertBot:
         system_prompt = """System Prompt: {System_prompt}"""
         prompt = ChatPromptTemplate.from_template(system_prompt)
         self.llm_chain = (
+            {
+                "System_prompt": itemgetter("system_prompt"),
+            }
+            | prompt
+            | llm
+            | StrOutputParser()
+        )
+
+    def _create_llm_chain_cl(self):
+        llm = ChatOpenAI(model_name="gpt-4-0125-preview", temperature=0)
+        system_prompt = """System Prompt: {System_prompt}"""
+        prompt = ChatPromptTemplate.from_template(system_prompt)
+        self.llm_chain_cl = (
             {
                 "System_prompt": itemgetter("system_prompt"),
             }
