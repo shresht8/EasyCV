@@ -49,7 +49,8 @@ class BotCreateCV:
         cv_template_path: str = None,
         cl_template_path: str = None,
         job_desc_link: str = None,
-        compilation_type: str = None,
+        cv_compilation_type: str = None,
+        cl_compilation_type: str = None,
     ):
         self.job_desc_str = None
         self.cl_prompt_str = None
@@ -59,7 +60,8 @@ class BotCreateCV:
         self.latex_content = None
         self.user_info_str = None
         output_path = "/app/output/"
-        self.compilation_type = compilation_type
+        self.cv_compilation_type = cv_compilation_type
+        self.cl_compilation_type = cl_compilation_type
         self.user_name = user_name
         self.user_info_path = user_info_path
         self.cv_template_path = cv_template_path
@@ -277,6 +279,15 @@ class BotCreateCV:
         )
         CV_EXPERT_BOT.generate_latex_output(self.output_path)
         # CV_EXPERT_BOT.compile_tex_file(self.cv_template_path)
+
+    def generate_cl(self):
+        CV_EXPERT_BOT = CVExpertBot(
+            user_name=self.user_name,
+            user_info_str=self.user_info_str,
+            cl_template_str=self.cl_prompt_str,
+            jd_str=self.job_desc_str,
+        )
+        CV_EXPERT_BOT.generate_cl_output(self.cl_template_path)
 
 
 # if __name__ == '__main__':

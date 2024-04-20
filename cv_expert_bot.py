@@ -14,8 +14,8 @@ from langchain_core.output_parsers import StrOutputParser
 class CVExpertBot:
     def __init__(
         self,
-        user_name,
-        user_info_str,
+        user_name: str,
+        user_info_str: str,
         cv_prompt_str: str = None,
         jd_str: str = None,
         cl_template_str: str = None,
