@@ -82,7 +82,7 @@ class CVExpertBot:
         output_str = self.llm_chain.invoke({"system_prompt": self.test_prompt_full})
         self.count_output_tokens(self.test_prompt_full)
         with open(
-            os.path.join(path, "{name}_CV_v1.tex".format(name=self.user_name)),
+            os.path.join(path, "{name}_CV.tex".format(name=self.user_name)),
             "w",
             encoding="utf-8",
         ) as tex_file:

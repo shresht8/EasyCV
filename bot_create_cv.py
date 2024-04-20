@@ -1,5 +1,6 @@
 from cv_expert_bot import CVExpertBot
 from langchain_community.document_loaders import AsyncHtmlLoader
+
 # from langchain.document_loaders import AsyncHtmlLoader
 from langchain_community.document_transformers import Html2TextTransformer
 from langchain.pydantic_v1 import BaseModel, Field
@@ -195,35 +196,35 @@ def none_or_str(value):
 
 
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser(description="generates CV latex code")
-    # parser.add_argument("arg1", help="Name of user")
-    # parser.add_argument("arg2", help="Path to user info directory")
-    # parser.add_argument(
-    #     "arg3", nargs="?", type=none_or_str, default=None, help="CV Template path"
-    # )
-    # parser.add_argument(
-    #     "arg4", nargs="?", type=none_or_str, default=None, help="CL Template path"
-    # )
-    # parser.add_argument(
-    #     "arg5", nargs="?", type=none_or_str, default=None, help="Job description link"
-    # )
-    # args = parser.parse_args()
-    os.environ["OPENAI_API_KEY"] = "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"
-    # bot_create_cv = BotCreateCV(args.arg1, args.arg2, args.arg3, args.arg4, args.arg5)
-    # Debugging code
-    bot_create_cv = BotCreateCV(
-        "Shresht",
-        ".\\User_Profiles\\Shresht_Shetty",
-        None,
-        ".\\Cover_letter_templates\\CL_Template_1",
-        "https://www.seek.com.au/job/74886756?ref=search-standalone&type=standard&origin=jobTitle#sol=c92eb08e8f7b1238a7a10735e38fb5d09dcba169",
+    parser = argparse.ArgumentParser(description="generates CV latex code")
+    parser.add_argument("arg1", help="Name of user")
+    parser.add_argument("arg2", help="Path to user info directory")
+    parser.add_argument(
+        "arg3", nargs="?", type=none_or_str, default=None, help="CV Template path"
     )
-    bot_create_cv.generate_cl()
-    # print("args passed")
-    # if args.arg3:
-    #     bot_create_cv.generate_cv()
-    #     print("cv pipeline completed")
-    # if args.arg4:
-    #     bot_create_cv.generate_cl()
-    #     print("cl pipeline completed")
-    # print("Run completed")
+    parser.add_argument(
+        "arg4", nargs="?", type=none_or_str, default=None, help="CL Template path"
+    )
+    parser.add_argument(
+        "arg5", nargs="?", type=none_or_str, default=None, help="Job description link"
+    )
+    args = parser.parse_args()
+    os.environ["OPENAI_API_KEY"] = "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"
+    bot_create_cv = BotCreateCV(args.arg1, args.arg2, args.arg3, args.arg4, args.arg5)
+    # Debugging code
+    # bot_create_cv = BotCreateCV(
+    #     "Shresht",
+    #     ".\\User_Profiles\\Shresht_Shetty",
+    #     None,
+    #     ".\\Cover_letter_templates\\CL_Template_4",
+    #     "https://www.seek.com.au/job/74886756?ref=search-standalone&type=standard&origin=jobTitle#sol=c92eb08e8f7b1238a7a10735e38fb5d09dcba169",
+    # )
+    # bot_create_cv.generate_cl()
+    print("args passed")
+    if args.arg3:
+        bot_create_cv.generate_cv()
+        print("cv pipeline completed")
+    if args.arg4:
+        bot_create_cv.generate_cl()
+        print("cl pipeline completed")
+    print("Run completed")
