@@ -71,10 +71,11 @@ class BotCreateCV:
         self.init_gloud()
         self.preprocess_user_date()
         self.download_bucket_folder()
-        self.write_compilation_type()
         if self.cv_template_path:
             self.read_cv_template()
+            self.write_cv_compilation_type()
         if self.cl_template_path:
+            self.write_cl_compilation_type()
             self.jd_path = os.path.join(
                 self.output_path, f"{self.user_name}_job_description.txt"
             )
@@ -100,11 +101,21 @@ class BotCreateCV:
         print(f"Temporary directory created at: {temp_dir_path}")
         return temp_dir_path
 
-    def write_compilation_type(self):
-        compilation_file_path = os.path.join(self.output_path, "compilation_type.txt")
+    def write_cv_compilation_type(self):
+        compilation_file_path = os.path.join(
+            self.output_path, "cv_compilation_type.txt"
+        )
         compilation_file_path = compilation_file_path.replace("\\", "/")
         with open(compilation_file_path, "w", encoding="utf-8") as file:
-            file.write(self.compilation_type)
+            file.write(self.cv_compilation_type)
+
+    def write_cl_compilation_type(self):
+        compilation_file_path = os.path.join(
+            self.output_path, "cl_compilation_type.txt"
+        )
+        compilation_file_path = compilation_file_path.replace("\\", "/")
+        with open(compilation_file_path, "w", encoding="utf-8") as file:
+            file.write(self.cl_compilation_type)
 
     def init_gloud(self):
         try:

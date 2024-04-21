@@ -65,7 +65,7 @@ class CVExpertBot:
         output_str = self.llm_chain.invoke({"system_prompt": self.test_prompt_full})
         # with open(os.path.join(path, '{name}_CV.tex'.format(name=self.user_name)), 'w', encoding='utf-8') as tex_file:
         with open(
-            os.path.join(path, "main_cv.tex"), "w+", encoding="utf-8"
+            os.path.join(path, "cv_main.tex"), "w+", encoding="utf-8"
         ) as tex_file:
             tex_file.write(output_str)
             print("main_cv.tex file has been written to {}.".format(path))
@@ -81,7 +81,7 @@ class CVExpertBot:
         )
 
         with open(
-            os.path.join(path, "main_cl.tex".format(name=self.user_name)),
+            os.path.join(path, "cl_main.tex".format(name=self.user_name)),
             "w",
             encoding="utf-8",
         ) as tex_file:
