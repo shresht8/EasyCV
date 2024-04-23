@@ -52,6 +52,7 @@ class BotCreateCV:
         cv_compilation_type: str = None,
         cl_compilation_type: str = None,
     ):
+        self.cv_prompt_str = None
         self.job_desc_str = None
         self.cl_prompt_str = None
         print("hi")
@@ -166,9 +167,18 @@ class BotCreateCV:
 
     def read_cl_template(self):
         """reads the main tex file as the latex template for the model"""
-        with open(os.path.join(self.cl_template_path, "main.tex"), "rb") as file:
-            cl_prompt_bytes = file.read()
-        self.cl_prompt_str = cl_prompt_bytes.decode("utf-8")
+        print("CL Template {} used.".format(self.cl_template_path))
+        path = os.path.join(self.cl_template_path, "main.tex")
+        path = path.replace("\\", "/")
+        blob = self.bucket.blob(path)
+        try:
+            with blob.open("r") as f:
+                latex_content_bytes = f.read()
+                print("CL template main.tex file successfully read")
+            cl_prompt_bytes = latex_content_bytes
+            self.cl_prompt_str = cl_prompt_bytes.decode("utf-8")
+        except Exception as e:
+            print("CL Template in input not found in blob")
 
     def download_files_from_path(self, source_path):
         blobs = self.bucket.list_blobs(

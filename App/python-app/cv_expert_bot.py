@@ -1,6 +1,6 @@
 import os
 from PROMPT_FILE import test_prompt, COVER_LETTER_PROMPT
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from operator import itemgetter
 from langchain_core.output_parsers import StrOutputParser

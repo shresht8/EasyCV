@@ -2,15 +2,19 @@ from bot_create_cv import BotCreateCV
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import os
+from typing import Optional
 
 app = FastAPI()
 
 # Define a Pydantic model to specify the input data structure
 class CVRequest(BaseModel):
-    arg1: str
-    arg2: str
-    arg3: str
-    arg4: str
+    user_name: str
+    user_info_path: str
+    cv_template_path: Optional[str] = None
+    cl_template_path: Optional[str] = None
+    job_desc_link: Optional[str] = None
+    cv_comp_type: Optional[str] = None
+    cl_comp_type: Optional[str] = None
 
 
 @app.get("/")
@@ -29,11 +33,19 @@ async def generate_cv(request: CVRequest):
 
         # Initialize the bot with provided arguments
         bot_create_cv = BotCreateCV(
-            request.arg1, request.arg2, request.arg3, request.arg4
+            request.user_name,
+            request.user_info_path,
+            request.cv_template_path,
+            request.cl_template_path,
+            request.job_desc_link,
+            request.cv_comp_type,
+            request.cl_comp_type,
         )
-
-        # Process the request
-        bot_create_cv.generate_cv()
+        if request.cv_template_path:
+            # Process the request
+            bot_create_cv.generate_cv()
+        if request.cl_template_path:
+            bot_create_cv.generate_cl()
 
         # Respond with a success message
         return {"status": "success", "message": "tex file generated successfully"}

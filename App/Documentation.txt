@@ -17,7 +17,7 @@
 5) docker build -t python-app:latest ./python-app # Build python image in minikube docker daemon;
 						  # If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
 				
-6)  # Build latex image in minikube docker daemon
+6)  docker build -t latex-app:latest ./latex-app # Build latex image in minikube docker daemon
 						# If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
 
 7) Apply manifest files for deployment, service and storage: Run from directory they are stored
