@@ -73,9 +73,11 @@ class BotCreateCV:
         self.preprocess_user_date()
         self.download_bucket_folder()
         if self.cv_template_path:
+            print("Initiating CV pipeline")
             self.read_cv_template()
             self.write_cv_compilation_type()
         if self.cl_template_path:
+            print("Initiating CL pipeline")
             self.write_cl_compilation_type()
             self.jd_path = os.path.join(
                 self.output_path, f"{self.user_name}_job_description.txt"
@@ -103,20 +105,28 @@ class BotCreateCV:
         return temp_dir_path
 
     def write_cv_compilation_type(self):
-        compilation_file_path = os.path.join(
-            self.output_path, "cv_compilation_type.txt"
-        )
-        compilation_file_path = compilation_file_path.replace("\\", "/")
-        with open(compilation_file_path, "w", encoding="utf-8") as file:
-            file.write(self.cv_compilation_type)
+        try:
+            compilation_file_path = os.path.join(
+                self.output_path, "cv_compilation_type.txt"
+            )
+            compilation_file_path = compilation_file_path.replace("\\", "/")
+            with open(compilation_file_path, "w", encoding="utf-8") as file:
+                file.write(self.cv_compilation_type)
+            print(f"cv compilation type written to: {self.output_path}")
+        except Exception as e:
+            print("incorrect output path to write cv compilation type")
 
     def write_cl_compilation_type(self):
-        compilation_file_path = os.path.join(
-            self.output_path, "cl_compilation_type.txt"
-        )
-        compilation_file_path = compilation_file_path.replace("\\", "/")
-        with open(compilation_file_path, "w", encoding="utf-8") as file:
-            file.write(self.cl_compilation_type)
+        try:
+            compilation_file_path = os.path.join(
+                self.output_path, "cl_compilation_type.txt"
+            )
+            compilation_file_path = compilation_file_path.replace("\\", "/")
+            with open(compilation_file_path, "w", encoding="utf-8") as file:
+                file.write(self.cl_compilation_type)
+            print(f"cl compilation type written to: {self.output_path}")
+        except Exception as e:
+            print("incorrect output path to write cl compilation type")
 
     def init_gloud(self):
         try:
@@ -172,11 +182,9 @@ class BotCreateCV:
         path = path.replace("\\", "/")
         blob = self.bucket.blob(path)
         try:
-            with blob.open("r") as f:
-                latex_content_bytes = f.read()
+            with blob.open("r", encoding="utf-8") as f:
+                self.cl_prompt_str = f.read()
                 print("CL template main.tex file successfully read")
-            cl_prompt_bytes = latex_content_bytes
-            self.cl_prompt_str = cl_prompt_bytes.decode("utf-8")
         except Exception as e:
             print("CL Template in input not found in blob")
 
@@ -239,6 +247,7 @@ class BotCreateCV:
             docs_transformed = html2text.transform_documents(docs)
             job_desc_obj = self.html_to_schema(docs_transformed)
             self.write_jd_to_txt(job_desc_obj["text"][0])
+            print("JD successfully scraped")
 
     def html_to_schema(self, html_text):
         """Extracts schema of job description from HTML to given schema"""
@@ -296,8 +305,9 @@ class BotCreateCV:
     def generate_cv(self):
         """initializes llm, creates cv tex file and compiles it"""
         CV_EXPERT_BOT = CVExpertBot(
-            self.user_name, self.user_info_str, self.cv_prompt_str
+            user_name=self.user_name, user_info_str=self.user_info_str, cv_prompt_str=self.cv_prompt_str
         )
+        print("Initiating CV tex file creation")
         CV_EXPERT_BOT.generate_latex_output(self.output_path)
         # CV_EXPERT_BOT.compile_tex_file(self.cv_template_path)
 
@@ -308,7 +318,8 @@ class BotCreateCV:
             cl_template_str=self.cl_prompt_str,
             jd_str=self.job_desc_str,
         )
-        CV_EXPERT_BOT.generate_cl_output(self.cl_template_path)
+        print("Initiating CL tex file creation")
+        CV_EXPERT_BOT.generate_cl_output(self.output_path)
 
 
 # if __name__ == '__main__':
