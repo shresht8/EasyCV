@@ -1,5 +1,5 @@
 # Use the base LaTeX image
-FROM blang/latex:ubuntu
+FROM texlive/texlive:latest
 
 # Set a working directory within the container
 WORKDIR /app

@@ -18,7 +18,7 @@
 						  # If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
 				
 6)  docker build -t latex-app:latest ./latex-app # Build latex image in minikube docker daemon
-						# If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
+(docker build -t latexlive-app:latest ./latex-app)# If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
 
 7) Apply manifest files for deployment, service and storage: Run from directory they are stored
    kubectl apply -f easycv-app-deployment.yaml
@@ -72,20 +72,6 @@ f) To copy a file from local to a pod:
 kubectl cp .\main.tex easycv-app-deployment-99b57b4b7-djdjs:/app/main.tex -c latex-app
 (replace with python-app if needed)
 
-Testing:
-
-----------------------------------------------------------------------------------------------------------------------
-
-{
-  "arg1": "Shresht",
-  "arg2": "user/Shresht_Shetty",
-  "arg3": "cv_templates/cv_template_11",
-  "arg4": "xelatex"
-}
-
-----------------------------------------------------------------------------------------------------------------------
-
-
 
 ----------------------------------------------------------------------------------------------------------------------
 Follow Below for google cloud deployments and testing
@@ -127,15 +113,3 @@ kubectl create secret generic gcloud-storage-auth-key --from-file=key.json=kp-sa
 
 ----------------------------------------------------------------------------------------------------------------------
 
-Testing:
-
-----------------------------------------------------------------------------------------------------------------------
-
-{
-  "arg1": "cv_templates/cv_template_1",
-  "arg2": "user/Shresht_Shetty",
-  "arg3": "https://www.seek.com.au/job/73935711?ref=search-standalone&type=standout#sol=6dd4bb810629dc6a15bc5b5a1ad713732f10282e",
-  "arg4": "/app/output"
-}
-
-----------------------------------------------------------------------------------------------------------------------

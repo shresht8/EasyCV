@@ -6,9 +6,24 @@ from langchain_core.prompts import ChatPromptTemplate
 from transformers import GPT2Tokenizer
 from operator import itemgetter
 from langchain_core.output_parsers import StrOutputParser
+import re
 
 # from langchain_openai import ChatOpenAI
 # Initialize the tokenizer
+
+
+def extract_latex_output(input_string):
+    # Define the regular expression pattern
+    pattern = r"'''latex output(.+?)'''"
+
+    # Search for the pattern in the input string
+    match = re.search(pattern, input_string, re.DOTALL)
+
+    # If a match is found, return the extracted string, otherwise return the input string
+    if match:
+        return match.group(1).strip()
+    else:
+        return input_string.strip()
 
 
 class CVExpertBot:
@@ -80,6 +95,7 @@ class CVExpertBot:
         # output_str = self.overall_chain({"LATEX_CODE":self.latex_code_str, "USER_INFORMATION": self.user_info_str,
         #                                  "JOB_INFORMATION":self.job_desc_str})
         output_str = self.llm_chain.invoke({"system_prompt": self.test_prompt_full})
+        output_str = extract_latex_output(output_str)
         self.count_output_tokens(self.test_prompt_full)
         with open(
             os.path.join(path, "{name}_CV.tex".format(name=self.user_name)),

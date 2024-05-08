@@ -111,6 +111,7 @@ class BotCreateCV:
             )
             compilation_file_path = compilation_file_path.replace("\\", "/")
             with open(compilation_file_path, "w", encoding="utf-8") as file:
+                print("cv compilation type:", self.cv_compilation_type)
                 file.write(self.cv_compilation_type)
             print(f"cv compilation type written to: {self.output_path}")
         except Exception as e:
@@ -305,7 +306,9 @@ class BotCreateCV:
     def generate_cv(self):
         """initializes llm, creates cv tex file and compiles it"""
         CV_EXPERT_BOT = CVExpertBot(
-            user_name=self.user_name, user_info_str=self.user_info_str, cv_prompt_str=self.cv_prompt_str
+            user_name=self.user_name,
+            user_info_str=self.user_info_str,
+            cv_prompt_str=self.cv_prompt_str,
         )
         print("Initiating CV tex file creation")
         CV_EXPERT_BOT.generate_latex_output(self.output_path)

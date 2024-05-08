@@ -4,6 +4,21 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from operator import itemgetter
 from langchain_core.output_parsers import StrOutputParser
+import re
+
+
+def extract_latex_output(input_string):
+    # Define the regular expression pattern
+    pattern = r"'''latex output(.+?)'''"
+
+    # Search for the pattern in the input string
+    match = re.search(pattern, input_string, re.DOTALL)
+
+    # If a match is found, return the extracted string, otherwise return the input string
+    if match:
+        return match.group(1).strip()
+    else:
+        return input_string.strip()
 
 
 class CVExpertBot:
@@ -65,6 +80,7 @@ class CVExpertBot:
     def generate_latex_output(self, path):
         """generates customised latex output using the llm chain"""
         output_str = self.llm_chain_cv.invoke({"system_prompt": self.test_prompt_full})
+        output_str = extract_latex_output(output_str)
         # with open(os.path.join(path, '{name}_CV.tex'.format(name=self.user_name)), 'w', encoding='utf-8') as tex_file:
         with open(
             os.path.join(path, "cv_main.tex"), "w+", encoding="utf-8"

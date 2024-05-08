@@ -52,16 +52,28 @@ precede them with a backslash character.
 Use cases of special characters are shown below: Use them as a reference while creating your output:
 
 $ (Dollar Sign): In math mode, $ is used to delimit mathematical expressions, like $E=mc^2$. In regular text,\
-it should appear as '\$' to represent a dollar sign, such as $10.
+it should appear as '\$' to represent a dollar sign, such as $10. It can be used to represent a montary value, you must
+recognize if the $ is used to delimit a mathematical expression or is used to represent some monetary value. Similarly 
+in your output, if you have to use the $ character, you need to decide whether it needs to be preceded by a 
+backslash or not. 
 
 # (Hash/Pound Sign): In LaTeX, # is used to define parameters for macros, as in \\newcommand{{\mycommand}}[1]{{#1}}. 
-In regular text, it should be displayed as '\#' to represent a hash or pound sign, like '#100'.
+In regular text, it should be displayed as '\#' to represent a hash or pound sign, like '#100'. Other examples of its 
+usage as a normal character are <Room number is \#305, Please call \#911 in case of emergency, 
+Product code is \#12345, Meeting at 10\# Main Street, Event hashtag is \#conference2022>. Similarly in your output, if 
+you have to use the # character, you need to decide whether it needs to be preceded by a backslash or not. 
 
 % (Percent Sign): The percent sign is used to insert comments in LaTeX, such as % This is a comment. 
-To treat it as a text character in regular text, it should be rendered as '\%', like 50%.
+To treat it as a text character in regular text, it should be rendered as '\%', like 50%. Other examples of its usage 
+as a normal character are <10\% discount, The error rate is 5\%, 50\% opacity, 20\% capacity, 
+The temperature increased by 10\%>. Similarly in your output, if 
+you have to use the % character, you need to decide whether it needs to be preceded by a backslash or not. 
 
 & (Ampersand): Within tables, & separates table columns, as in \\begin{{tabular}}{{c|l}}. In regular text, 
-it should be displayed as '\&' to represent an ampersand, like 'Smith \& Co'.
+it should be displayed as '\&' to represent an ampersand, like 'Smith \& Co'. Other examples of its usage as normal
+character are < Sponsored by Coca-Cola \& Pepsi, Prepared by Alice \& Bob, Sells books \& stationery, Formula is a \& b / c>. 
+Similarly in your output, if you have to use the & character, you need to decide whether it needs to be preceded 
+by a backslash or not. 
 
 You should carefully consider the context around each special character to be able to judge whether it is intended to 
 be used as a special character or a regular character.You need to be able to do this very well because if you dont 
@@ -135,16 +147,28 @@ precede them with a backslash character.
 Use cases of special characters are shown below: Use them as a reference while creating your output:
 
 $ (Dollar Sign): In math mode, $ is used to delimit mathematical expressions, like $E=mc^2$. In regular text,\
-it should appear as '\$' to represent a dollar sign, such as $10.
+it should appear as '\$' to represent a dollar sign, such as $10. It can be used to represent a montary value, you must
+recognize if the $ is used to delimit a mathematical expression or is used to represent some monetary value. Similarly 
+in your output, if you have to use the $ character, you need to decide whether it needs to be preceded by a 
+backslash or not. 
 
 # (Hash/Pound Sign): In LaTeX, # is used to define parameters for macros, as in \\newcommand{{\mycommand}}[1]{{#1}}. 
-In regular text, it should be displayed as '\#' to represent a hash or pound sign, like '#100'.
+In regular text, it should be displayed as '\#' to represent a hash or pound sign, like '#100'. Other examples of its 
+usage as a normal character are <Room number is \#305, Please call \#911 in case of emergency, 
+Product code is \#12345, Meeting at 10\# Main Street, Event hashtag is \#conference2022>. Similarly in your output, if 
+you have to use the # character, you need to decide whether it needs to be preceded by a backslash or not. 
 
 % (Percent Sign): The percent sign is used to insert comments in LaTeX, such as % This is a comment. 
-To treat it as a text character in regular text, it should be rendered as '\%', like 50%.
+To treat it as a text character in regular text, it should be rendered as '\%', like 50%. Other examples of its usage 
+as a normal character are <10\% discount, The error rate is 5\%, 50\% opacity, 20\% capacity, 
+The temperature increased by 10\%>. Similarly in your output, if 
+you have to use the % character, you need to decide whether it needs to be preceded by a backslash or not. 
 
 & (Ampersand): Within tables, & separates table columns, as in \\begin{{tabular}}{{c|l}}. In regular text, 
-it should be displayed as '\&' to represent an ampersand, like 'Smith \& Co'.
+it should be displayed as '\&' to represent an ampersand, like 'Smith \& Co'. Other examples of its usage as normal
+character are < Sponsored by Coca-Cola \& Pepsi, Prepared by Alice \& Bob, Sells books \& stationery, Formula is a \& b / c>. 
+Similarly in your output, if you have to use the & character, you need to decide whether it needs to be preceded 
+by a backslash or not. 
 
 You should carefully consider the context around each special character to be able to judge whether it is intended to 
 be used as a special character or a regular character.You need to be able to do this very well because if you dont 
