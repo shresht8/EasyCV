@@ -14,7 +14,7 @@ import re
 
 def extract_latex_output(input_string):
     # Define the regular expression pattern
-    pattern = r"'''latex output(.+?)'''"
+    pattern = r"```latex(.+?)```"
 
     # Search for the pattern in the input string
     match = re.search(pattern, input_string, re.DOTALL)

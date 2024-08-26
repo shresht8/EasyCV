@@ -11,7 +11,13 @@ from langchain.chains.openai_functions import (
     create_extraction_chain_pydantic,
 )
 from langchain.pydantic_v1 import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
+from pydantic import BaseModel
+import json
+from typing import List, Optional
+
+# Import the UserInfo class and other necessary classes
+from python_app import UserInfo, Education, Experience
 
 
 class JobDescription(BaseModel):
@@ -44,13 +50,13 @@ class JobDescription(BaseModel):
 class BotCreateCV:
     def __init__(
         self,
-        user_name,
-        user_info_path,
-        cv_template_path: str = None,
-        cl_template_path: str = None,
-        job_desc_link: str = None,
-        cv_compilation_type: str = None,
-        cl_compilation_type: str = None,
+        user_name: str,
+        user_info_path: UserInfo,
+        cv_template_path: Optional[str] = None,
+        cl_template_path: Optional[str] = None,
+        job_desc_link: Optional[str] = None,
+        cv_compilation_type: Optional[str] = None,
+        cl_compilation_type: Optional[str] = None,
     ):
         self.cv_prompt_str = None
         self.job_desc_str = None
@@ -64,13 +70,13 @@ class BotCreateCV:
         self.cv_compilation_type = cv_compilation_type
         self.cl_compilation_type = cl_compilation_type
         self.user_name = user_name
-        self.user_info_path = user_info_path
+        self.user_info = user_info_path  # Store the UserInfo object
         self.cv_template_path = cv_template_path
         self.cl_template_path = cl_template_path
         self.job_desc_link = job_desc_link
         self.output_path = self.create_temp_dir(output_path)
         self.init_gloud()
-        self.preprocess_user_date()
+        self.preprocess_user_data()  # Rename this method
         self.download_bucket_folder()
         if self.cv_template_path:
             print("Initiating CV pipeline")
@@ -87,7 +93,8 @@ class BotCreateCV:
             self.read_job_desc()
             self.read_cl_template()
 
-    def create_temp_dir(self, shared_output_path):
+    @staticmethod
+    def create_temp_dir(shared_output_path):
         """
         Creates a temporary sub-directory within the specified parent path.
 
@@ -144,20 +151,47 @@ class BotCreateCV:
         # for blob in blobs:
         #     print(blob.name)
 
-    def preprocess_user_date(self):
-        """reads and preprocesses user info, add logo metadata to user info doc"""
-        # Get the text document object.
-        path = os.path.join(self.user_info_path, "user_professional_information.txt")
-        path = path.replace("\\", "/")
-        try:
-            blob = self.bucket.blob(path)
-            with blob.open("r") as f:
-                self.user_info_str = f.read()
-                print("user professional information successfully read")
-        except Exception as e:
-            print("user professional information path not found in blob")
-        # with open(os.path.join(self.user_info_path, 'user_professional_information.txt'), 'rb') as file:
-        #     self.user_info_str = file.read()
+    def preprocess_user_data(self):
+        """Converts UserInfo object to a formatted string"""
+        user_info = self.user_info
+        
+        # Create a formatted string with the user information
+        self.user_info_str = f"""
+Name: {user_info.first_name} {user_info.last_name}
+Email: {user_info.email}
+Contact: {user_info.contact_no}
+Address: {user_info.address}
+Nationality: {user_info.nationality}
+
+Bio:
+{user_info.bio}
+
+Education:
+{self._format_education(user_info.education)}
+
+Experience:
+{self._format_experience(user_info.experience)}
+
+Skills:
+{', '.join(user_info.skills)}
+
+Certifications:
+{', '.join(user_info.certifications)}
+
+Website: {user_info.website}
+LinkedIn: {user_info.linkedin}
+Calendly: {user_info.calendly_url}
+        """
+
+    def _format_education(self, education_list: List[Education]):
+        return '\n'.join([f"- {edu.degree} from {edu.university} ({edu.start_year} - {edu.end_year})"
+                          f"{f': {edu.description}' if edu.description else ''}"
+                          for edu in education_list])
+
+    def _format_experience(self, experience_list: List[Experience]):
+        return '\n'.join([f"- {exp.position} at {exp.company} ({exp.start_year} - {exp.end_year})"
+                          f"{f': {exp.description}' if exp.description else ''}"
+                          for exp in experience_list])
 
     def read_cv_template(self):
         """reads cv main.tex file from the directory"""
