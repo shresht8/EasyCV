@@ -17,7 +17,7 @@ import json
 from typing import List, Optional
 
 # Import the UserInfo class and other necessary classes
-from python_app import UserInfo, Education, Experience
+from models import UserInfo, Education, Experience
 
 
 class JobDescription(BaseModel):

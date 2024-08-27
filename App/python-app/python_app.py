@@ -1,76 +1,7 @@
 from bot_create_cv import BotCreateCV
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from models import UserInfo, CVRequest  # Import from models.py
 import os
-
-class Education(BaseModel):
-    degree: str
-    university: str
-    start_year: str
-    end_year: str
-    description: Optional[str] = None
-
-class Experience(BaseModel):
-    company: str
-    position: str
-    start_year: str
-    end_year: str
-    description: Optional[str] = None
-
-class ExpertType(BaseModel):
-    id: int
-    expert_type: str
-    description: Optional[str] = None
-
-class EngagementType(BaseModel):
-    id: int
-    engagement_type: str
-    description: Optional[str] = None
-
-class EngagementModel(BaseModel):
-    id: int
-    engagement_model: str
-    description: Optional[str] = None
-
-class UserInfo(BaseModel):
-    id: int
-    email: str
-    contact_no: str
-    bio: str
-    education: List[Education]
-    experience: List[Experience]
-    skills: List[str]
-    certifications: List[str]
-    image: str
-    website: str
-    linkedin: str
-    calendly_url: str
-    expert_type_id: int
-    engagement_type_id: List[int]
-    engagement_model_id: List[int]
-    rating: int
-    first_name: str
-    last_name: str
-    resume: str
-    dob: str
-    nationality: str
-    district: str
-    state: str
-    address: str
-    expert_type: ExpertType
-    engagement_types: List[EngagementType]
-    engagement_models: List[EngagementModel]
-
-class CVRequest(BaseModel):
-    user_name: str
-    user_info_path: UserInfo
-    unique_id: str
-    cv_template_path: Optional[str] = None
-    cl_template_path: Optional[str] = None
-    job_desc_link: Optional[str] = None
-    cv_comp_type: Optional[str] = None
-    cl_comp_type: Optional[str] = None
 
 app = FastAPI()
 
