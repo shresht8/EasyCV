@@ -2,13 +2,22 @@ from bot_create_cv import BotCreateCV
 from fastapi import FastAPI, HTTPException
 from models import UserInfo, CVRequest  # Import from models.py
 import os
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return JSONResponse(status_code=422, content={"detail": str(exc)})
+
 
 # Define a Pydantic model to specify the input data structure
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
+
 
 @app.post("/generate_cv/")
 async def generate_cv(request: CVRequest):
@@ -22,7 +31,7 @@ async def generate_cv(request: CVRequest):
         # Initialize the bot with provided arguments
         bot_create_cv = BotCreateCV(
             request.user_name,
-            request.user_info_path,
+            request.user_info,
             request.cv_template_path,
             request.cl_template_path,
             request.job_desc_link,
@@ -41,6 +50,7 @@ async def generate_cv(request: CVRequest):
     except Exception as e:
         # If there's an error, return an HTTPException with details
         raise HTTPException(status_code=500, detail=str(e))
+
 
 if __name__ == "__main__":
     # Use uvicorn to run the app; it must be run in async mode

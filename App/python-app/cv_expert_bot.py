@@ -5,6 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from operator import itemgetter
 from langchain_core.output_parsers import StrOutputParser
 import re
+from constants import PY_ENV
 
 
 def extract_latex_output(input_string):
@@ -81,10 +82,10 @@ class CVExpertBot:
         """generates customised latex output using the llm chain"""
         output_str = self.llm_chain_cv.invoke({"system_prompt": self.test_prompt_full})
         output_str = extract_latex_output(output_str)
-        # with open(os.path.join(path, '{name}_CV.tex'.format(name=self.user_name)), 'w', encoding='utf-8') as tex_file:
-        with open(
-            os.path.join(path, "cv_main.tex"), "w+", encoding="utf-8"
-        ) as tex_file:
+        output_file_path = os.path.join(path, "cv_main.tex")
+        if PY_ENV == 'test':
+            output_file_path = output_file_path.replace("\\", "/")
+        with open(output_file_path, "w+", encoding='utf-8') as tex_file:
             tex_file.write(output_str)
             print("main_cv.tex file has been written to {}.".format(path))
 
@@ -98,11 +99,9 @@ class CVExpertBot:
             }
         )
 
-        with open(
-            os.path.join(path, "cl_main.tex".format(name=self.user_name)),
-            "w",
-            encoding="utf-8",
-        ) as tex_file:
-            # with open(os.path.join(path, 'main.tex'.format(name=self.user_name)), 'w', encoding='utf-8') as tex_file:
+        output_file_path = os.path.join(path, "cl_main.tex".format(name=self.user_name))
+        if PY_ENV == 'test':
+            output_file_path = output_file_path.replace("\\", "/")
+        with open(output_file_path, "w", encoding='utf-8') as tex_file:
             tex_file.write(output_str)
             print("main_cl.tex file has been written to {}.".format(path))

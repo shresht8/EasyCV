@@ -15,9 +15,10 @@ from typing import Optional, List
 from pydantic import BaseModel
 import json
 from typing import List, Optional
+from constants import PY_ENV
 
 # Import the UserInfo class and other necessary classes
-from models import UserInfo, Education, Experience
+from models import UserInfo, Education, Experience, Project
 
 
 class JobDescription(BaseModel):
@@ -66,7 +67,9 @@ class BotCreateCV:
         self.client = None
         self.latex_content = None
         self.user_info_str = None
-        output_path = "/app/output/"
+        output_path = "C:\\Users\\shres\\Projects\\EasyCV\\App\\python-app\\app\\output"
+        if PY_ENV == "test":
+            output_path = "/app/output"
         self.cv_compilation_type = cv_compilation_type
         self.cl_compilation_type = cl_compilation_type
         self.user_name = user_name
@@ -88,7 +91,8 @@ class BotCreateCV:
             self.jd_path = os.path.join(
                 self.output_path, f"{self.user_name}_job_description.txt"
             )
-            self.jd_path = self.jd_path.replace("\\", "/")
+            if PY_ENV == "test":
+                self.jd_path = self.jd_path.replace("\\", "/")
             self.scrape_job_desc()
             self.read_job_desc()
             self.read_cl_template()
@@ -108,6 +112,8 @@ class BotCreateCV:
             )
         # Create a temporary directory within the specified parent path and return its name
         temp_dir_path = tempfile.mkdtemp(dir=shared_output_path)
+        if PY_ENV == "test":
+            temp_dir_path = temp_dir_path.replace("\\", "/")
         print(f"Temporary directory created at: {temp_dir_path}")
         return temp_dir_path
 
@@ -116,7 +122,8 @@ class BotCreateCV:
             compilation_file_path = os.path.join(
                 self.output_path, "cv_compilation_type.txt"
             )
-            compilation_file_path = compilation_file_path.replace("\\", "/")
+            if PY_ENV == "test":
+                compilation_file_path = compilation_file_path.replace("\\", "/")
             with open(compilation_file_path, "w", encoding="utf-8") as file:
                 print("cv compilation type:", self.cv_compilation_type)
                 file.write(self.cv_compilation_type)
@@ -129,7 +136,8 @@ class BotCreateCV:
             compilation_file_path = os.path.join(
                 self.output_path, "cl_compilation_type.txt"
             )
-            compilation_file_path = compilation_file_path.replace("\\", "/")
+            if PY_ENV == "test":
+                compilation_file_path = compilation_file_path.replace("\\", "/")
             with open(compilation_file_path, "w", encoding="utf-8") as file:
                 file.write(self.cl_compilation_type)
             print(f"cl compilation type written to: {self.output_path}")
@@ -151,47 +159,65 @@ class BotCreateCV:
         # for blob in blobs:
         #     print(blob.name)
 
+    def _format_education(self, education_list: List[Education]) -> str:
+        return "\n".join(
+            f"- {edu.degree} from {edu.university}\n  ({edu.start_year} - {edu.end_year})"
+            for edu in education_list
+        )
+
+    def _format_experience(self, experience_list: List[Experience]) -> str:
+        return "\n".join(
+            f"- {exp.position} at {exp.company}\n  ({exp.start_year} - {exp.end_year})\n  Summary: {exp.summary}"
+            for exp in experience_list
+        )
+
+    def _format_projects(self, project_list: List[Project]) -> str:
+        project_strings = []
+        for project in project_list:
+            project_str = f"- {project.title}\n  Role: {project.role}\n  Description: {project.description}\n  Responsibilities:"
+            for resp in project.responsibilities:
+                project_str += f"\n    • {resp}"
+            project_strings.append(project_str)
+        return "\n\n".join(project_strings)
+
+    def _format_multiline(self, text: str, indent: str = "  ") -> str:
+        return "\n".join(f"{indent}{line}" for line in text.split("\n"))
+
+    def _format_list(self, items: List[str]) -> str:
+        return "\n".join(f"- {item}" for item in items)
+
     def preprocess_user_data(self):
         """Converts UserInfo object to a formatted string"""
         user_info = self.user_info
-        
-        # Create a formatted string with the user information
-        self.user_info_str = f"""
-Name: {user_info.first_name} {user_info.last_name}
-Email: {user_info.email}
-Contact: {user_info.contact_no}
-Address: {user_info.address}
-Nationality: {user_info.nationality}
-
-Bio:
-{user_info.bio}
-
-Education:
-{self._format_education(user_info.education)}
-
-Experience:
-{self._format_experience(user_info.experience)}
-
-Skills:
-{', '.join(user_info.skills)}
-
-Certifications:
-{', '.join(user_info.certifications)}
-
-Website: {user_info.website}
-LinkedIn: {user_info.linkedin}
-Calendly: {user_info.calendly_url}
+        self.user_info_str = f"""Name: {user_info.first_name} {user_info.last_name}
+        Email: {user_info.email}
+        Contact: {user_info.contact_no}
+        Address: {user_info.address}
+    
+        Bio:
+        {self._format_multiline(user_info.bio)}
+    
+        Education:
+        {self._format_education(user_info.education)}
+    
+        Experience:
+        {self._format_experience(user_info.experience)}
+    
+        Projects:
+        {self._format_projects(user_info.projects)}
+    
+        Skills:
+        {self._format_list(user_info.skills)}
+    
+        Certifications:
+        {self._format_list(user_info.certifications) if user_info.certifications else "None"}
+    
+        Image URL: {user_info.image if user_info.image else "Not provided"}
+        Website: {user_info.website if user_info.website else "Not provided"}
+        LinkedIn: {user_info.linkedin if user_info.linkedin else "Not provided"}
+        Calendly: {user_info.calendly_url if user_info.calendly_url else "Not provided"}
         """
-
-    def _format_education(self, education_list: List[Education]):
-        return '\n'.join([f"- {edu.degree} from {edu.university} ({edu.start_year} - {edu.end_year})"
-                          f"{f': {edu.description}' if edu.description else ''}"
-                          for edu in education_list])
-
-    def _format_experience(self, experience_list: List[Experience]):
-        return '\n'.join([f"- {exp.position} at {exp.company} ({exp.start_year} - {exp.end_year})"
-                          f"{f': {exp.description}' if exp.description else ''}"
-                          for exp in experience_list])
+        print(self.user_info_str)
 
     def read_cv_template(self):
         """reads cv main.tex file from the directory"""
@@ -200,9 +226,10 @@ Calendly: {user_info.calendly_url}
         print("CV Template {} used.".format(self.cv_template_path))
         path = os.path.join(self.cv_template_path, "cv_prompt.txt")
         path = path.replace("\\", "/")
+        # print(path)
         blob = self.bucket.blob(path)
         try:
-            with blob.open("r") as f:
+            with blob.open("r", encoding="utf-8") as f:
                 latex_content_bytes = f.read()
                 print("CV template cv_prompt.txt file successfully read")
             self.cv_prompt_str = latex_content_bytes
@@ -239,7 +266,8 @@ Calendly: {user_info.calendly_url}
 
             # Create local path for blob
             local_path = os.path.join(self.output_path, relative_path)
-            local_path = local_path.replace("\\", "/")  # For deployment
+            if PY_ENV == "test":
+                local_path = local_path.replace("\\", "/")
             # local_path = local_path.replace("/", "\\") # For local
             # Create necessary local directories
             os.makedirs(os.path.dirname(local_path), exist_ok=True)
@@ -339,6 +367,9 @@ Calendly: {user_info.calendly_url}
 
     def generate_cv(self):
         """initializes llm, creates cv tex file and compiles it"""
+        print(f"user name: {self.user_name}")
+        print(f"user info str: {self.user_info_str}")
+        print(f"cv prompt: {self.cv_prompt_str}")
         CV_EXPERT_BOT = CVExpertBot(
             user_name=self.user_name,
             user_info_str=self.user_info_str,
