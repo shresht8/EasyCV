@@ -18,7 +18,7 @@ WORKDIR /app
 
 # Install necessary tools
 RUN apt-get update && \
-    apt-get install -y apt-transport-https ca-certificates gnupg curl sudo python3 python3-pip && \
+    apt-get install -y apt-transport-https ca-certificates gnupg curl sudo && \
     rm -rf /var/lib/apt/lists/*
 
 # Add the Cloud SDK distribution URI as a package source
@@ -30,9 +30,13 @@ RUN apt-get update && \
     apt-get install -y google-cloud-cli && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages from python-base stage
-COPY --from=python-base /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
-COPY --from=python-base /usr/local/bin /usr/local/bin
+# Copy Python from python-base stage
+COPY --from=python-base /usr/local /usr/local
+
+# Set Python environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH="/usr/local/bin:$PATH"
 
 # Copy required_packages.txt into the container
 COPY required_packages.txt /app/
@@ -50,5 +54,8 @@ COPY latex_compiler_service.py /app/
 # Expose the port the app runs on
 EXPOSE 5000
 
-# Command to run the FastAPI application
-CMD ["python3", "/app/latex_compiler_service.py"]
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Set the command to run your FastAPI application using uvicorn
+CMD ["uvicorn", "latex_compiler_service:app", "--host", "0.0.0.0", "--port", "5000"]

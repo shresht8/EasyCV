@@ -38,6 +38,11 @@ spec:
                 configMapKeyRef:
                   name: easycv-config
                   key: PY_ENV
+            - name: LATEX_APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: easycv-config
+                  key: LATEX_APP_URL
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
