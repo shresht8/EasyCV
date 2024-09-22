@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: python-app
-          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
+          image: python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
           imagePullPolicy: IfNotPresent #IfNotPresent if image tag is not latest, Always otherwise
           ports:
             - containerPort: 8000
@@ -35,11 +35,25 @@ spec:
               memory: "500Mi"
               cpu: "250m"
               ephemeral-storage: "200Mi"
+#            limits:
+#              memory: "1Gi"
+#              cpu: "500m"
+#              ephemeral-storage: "400Mi"
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
+            - name: PY_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: easycv-config
+                  key: PY_ENV
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: easycv-secrets
+                  key: OPENAI_API_KEY
         - name: latex-app
-          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
+          image: latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
           imagePullPolicy: IfNotPresent #IfNotPresent if image tag is not latest, Always otherwise
           volumeMounts:
             - mountPath: /app/output
@@ -51,6 +65,10 @@ spec:
               memory: "500Mi"
               cpu: "250m"
               ephemeral-storage: "200Mi"
+#            limits:
+#              memory: "1Gi"
+#              cpu: "500m"
+#              ephemeral-storage: "400Mi"
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
