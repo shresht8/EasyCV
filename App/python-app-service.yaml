@@ -1,13 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: python-app-service
+  name: easycv-service
 spec:
   selector:
     app: easycv-app-deployment
   ports:
-    - protocol: TCP
-      port: 80
+    - name: python-app
+      protocol: TCP
+      port: 8000
       targetPort: 8000
-  type: NodePort # NodePort in local, LoadBalancer on cloud
-
+    - name: latex-app
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP # LoadBalancer in cloud, NodePort in local
