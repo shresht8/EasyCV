@@ -376,7 +376,7 @@ class BotCreateCV:
             cv_prompt_str=self.cv_prompt_str,
         )
         print("Initiating CV tex file creation")
-        CV_EXPERT_BOT.generate_latex_output(self.output_path)
+        CV_EXPERT_BOT.generate_latex_output(self.output_path, self.cv_compilation_type)
         # CV_EXPERT_BOT.compile_tex_file(self.cv_template_path)
 
     def generate_cl(self):
@@ -387,7 +387,7 @@ class BotCreateCV:
             jd_str=self.job_desc_str,
         )
         print("Initiating CL tex file creation")
-        CV_EXPERT_BOT.generate_cl_output(self.output_path)
+        CV_EXPERT_BOT.generate_cl_output(self.output_path, self.cl_compilation_type)
 
 
 # if __name__ == '__main__':
