@@ -12,8 +12,8 @@ from urllib.parse import urljoin
 
 def send_latex_compilation_request(path, compilation_type):
     """Sends a POST request to the LaTeX app for compilation"""
-    subdirectory = os.path.relpath(path, "/app/output")
-    payload = {"subdirectory": subdirectory, "compilation_type": compilation_type}
+    # subdirectory = os.path.relpath(path, "/app/output")
+    payload = {"subdirectory": path, "compilation_type": compilation_type}
 
     if PY_ENV == "test":
         try:
