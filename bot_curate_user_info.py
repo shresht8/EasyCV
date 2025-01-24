@@ -4,6 +4,7 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI
 import os
 from PROMPT_FILE import CV_EXPERT_PROMPT
+from dotenv import load_dotenv
 
 
 class CurateUserInfo:
@@ -40,7 +41,9 @@ class CurateUserInfo:
 
 
 if __name__ == "__main__":
-    os.environ["OPENAI_API_KEY"] = "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"
+    load_dotenv()
+    api_key = os.getenv("OPENAI_API_KEY")
+    os.environ["OPENAI_API_KEY"] = api_key
     # Get a list of users
     path_user_data = ".\\User_Profiles"
     list_users = [

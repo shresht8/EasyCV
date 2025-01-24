@@ -1,7 +1,3 @@
-#TODO:
-# 1. Limit the storage of the shared volume to save costs
-# 2. De-provision the IP address when not used
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,14 +11,13 @@ spec:
       app: easycv-app-deployment
   template:
     metadata:
-      name: easycv-app-deployment
       labels:
         app: easycv-app-deployment
     spec:
       containers:
         - name: python-app
-          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
-          imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
+          image: python-app:latest #use python-app:latest in local, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/python-app:v1 in deployment
+          imagePullPolicy: IfNotPresent #IfNotPresent if image tag is not latest, Always otherwise
           ports:
             - containerPort: 8000
           volumeMounts:
@@ -38,9 +33,26 @@ spec:
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
+            - name: PY_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: easycv-config
+                  key: PY_ENV
+            - name: LATEX_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: easycv-config
+                  key: LATEX_API_URL
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: easycv-secrets
+                  key: OPENAI_API_KEY
         - name: latex-app
-          image: australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
-          imagePullPolicy: Always #IfNotPresent if image tag is not latest, Always otherwise
+          image: latex-app:latest # Use latex-app:latest in local deployment, australia-southeast1-docker.pkg.dev/keyproject-401005/easycv-artifacts/latex-app:v1 in deployment
+          imagePullPolicy: IfNotPresent #IfNotPresent if image tag is not latest, Always otherwise
+          ports:
+            - containerPort: 5000
           volumeMounts:
             - mountPath: /app/output
               name: shared-volume

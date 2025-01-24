@@ -24,32 +24,37 @@ log_message "Script started"
         log_message "Contents of ${WATCH_DIR} before watching:"
         ls -l "${WATCH_DIR}" >> "$LOG_FILE" 2>&1
         
-        # Use inotifywait to monitor all subdirectories for new or moved 'main.tex' files
+        # Use inotifywait to monitor all subdirectories for new or moved 'cv_main.tex' or 'cl_main.tex' files
         inotifywait -r -e create -e moved_to --format '%w%f' "$WATCH_DIR" | while IFS= read -r FILEPATH; do
             FILE=$(basename "$FILEPATH")
             DIR=$(dirname "$FILEPATH")
             log_message "Change detected in $FILEPATH"
 
-            if [[ "$FILE" == "main.tex" ]]; then
-                log_message "Found main.tex in $DIR. Attempting to compile with pdflatex."
-                pushd "$DIR"
-                if pdflatex "$FILE" >> "$LOG_FILE" 2>&1; then
-                    PDF_GENERATED=1
-                    log_message "pdflatex successfully generated PDF for $FILE in $DIR."
+            if [[ "$FILE" == "cv_main.tex" || "$FILE" == "cl_main.tex" ]]; then
+                # Read the compilation type from corresponding compilation_type.txt file
+                COMPILATION_TYPE_FILE="$DIR/${FILE%_*}_compilation_type.txt"
+                if [[ -f "$COMPILATION_TYPE_FILE" ]]; then
+                    COMPILATION_TYPE=$(<"$COMPILATION_TYPE_FILE")
                 else
-                    log_message "pdflatex failed to compile $FILE in $DIR. Trying with lualatex."
-                    if lualatex "$FILE" >> "$LOG_FILE" 2>&1; then
-                        PDF_GENERATED=1
-                        log_message "lualatex successfully generated PDF for $FILE in $DIR."
-                    else
-                        log_message "Both pdflatex and lualatex failed to compile $FILE in $DIR."
-                    fi
+                    # If compilation_type.txt doesn't exist or is empty, default to pdflatex
+                    COMPILATION_TYPE="pdflatex"
                 fi
+
+                log_message "Found $FILE in $DIR. Attempting to compile with $COMPILATION_TYPE."
+                pushd "$DIR"
+                # Use the specified LaTeX compiler
+                if "$COMPILATION_TYPE" "$FILE" >> "$LOG_FILE" 2>&1; then
+                    PDF_GENERATED=1
+                    log_message "$COMPILATION_TYPE successfully generated PDF for $FILE in $DIR."
+                else
+                    log_message "$COMPILATION_TYPE failed to compile $FILE in $DIR."
+                fi
+                popd
 
                 # Check if PDF was generated
                 if [ $PDF_GENERATED -eq 1 ]; then
                     TIMESTAMP=$(date +%Y%m%d%H%M%S)
-                    PDF_FILENAME="main.pdf"
+                    PDF_FILENAME="${FILE%.*}.pdf"
                     PDF_FILE="${DIR}/${PDF_FILENAME}"
                     BUCKET_PATH="gs://${BUCKET_NAME}/${PDF_FILENAME}"
                     if [ -f "$PDF_FILE" ]; then
@@ -65,10 +70,9 @@ log_message "Script started"
                         log_message "PDF file not found: ${PDF_FILE}"
                     fi
                 else
-                    log_message "PDF generation failed after attempting both pdflatex and lualatex. Notifying the failure..."
+                    log_message "PDF generation failed after attempting $COMPILATION_TYPE. Notifying the failure..."
                 fi
             fi
-            popd
         done
     done
 } >> "$LOG_FILE" 2>&1  # Redirect all output from the block to the log file

@@ -1,0 +1,5 @@
+google-api-python-client
+google-cloud-storage
+uvicorn[standard]~=0.17.6
+fastapi
+pydantic~=2.4.2

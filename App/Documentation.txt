@@ -17,12 +17,14 @@
 5) docker build -t python-app:latest ./python-app # Build python image in minikube docker daemon;
 						  # If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
 				
-6) docker build -t latex-app:latest ./latex-app # Build latex image in minikube docker daemon
-						# If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
+6)  docker build -t latex-app:latest ./latex-app # Build latex image in minikube docker daemon
+(docker build -t latexlive-app:latest ./latex-app)# If deployment needs to be updated, just run this command to update hte docker image. Make sure tag is latest and imagepullpolicy is Always
 
 7) Apply manifest files for deployment, service and storage: Run from directory they are stored
+   kubectl apply -f easycv-config.yaml
    kubectl apply -f easycv-app-deployment.yaml
    kubectl apply -f python-app-service.yaml
+To create secrets:    kubectl create secret generic easycv-secrets --from-literal=OPENAI_API_KEY=<your-openai-api-key>
 
 8) If you cant find service ip, then run below command:
 minikube service python-app-service
@@ -72,20 +74,6 @@ f) To copy a file from local to a pod:
 kubectl cp .\main.tex easycv-app-deployment-99b57b4b7-djdjs:/app/main.tex -c latex-app
 (replace with python-app if needed)
 
-Testing:
-
-----------------------------------------------------------------------------------------------------------------------
-
-{
-  "arg1": "cv_templates/cv_template_3",
-  "arg2": "user/Shresht_Shetty",
-  "arg3": "https://www.seek.com.au/job/73015372?ref=search-standalone&type=standout#sol=c39c571092d120b933c7c4e717078f095d830580",
-  "arg4": "/app/output"
-}
-
-----------------------------------------------------------------------------------------------------------------------
-
-
 
 ----------------------------------------------------------------------------------------------------------------------
 Follow Below for google cloud deployments and testing
@@ -115,6 +103,7 @@ gcloud container clusters create-auto easycv-gke --location australia-southeast1
 
 2) In directory with service account private key run:
 kubectl create secret generic gcloud-storage-auth-key --from-file=key.json=kp-sa-private-key.json
+kubectl create secret generic gcloud-storage-auth-key-latex --from-file=key.json=kp_docker_key.json
 
 
 3) Make sure compute engine service account has editor permissions - to pull images from Artifact Registry
@@ -122,20 +111,12 @@ kubectl create secret generic gcloud-storage-auth-key --from-file=key.json=kp-sa
 4) Apply manifest files for deployment, service and storage: Run from directory they are stored
    kubectl apply -f easycv-app-deployment.yaml
    kubectl apply -f python-app-service.yaml
+   kubectl apply -f easycv-config.yaml
+   kubectl create secret generic easycv-secrets --from-literal=OPENAI_API_KEY=<your-openai-api-key>
 
 5) Check if service is running: kubectl get services 
 
 ----------------------------------------------------------------------------------------------------------------------
+ Docker run on local:
 
-Testing:
-
-----------------------------------------------------------------------------------------------------------------------
-
-{
-  "arg1": "cv_templates/cv_template_1",
-  "arg2": "user/Shresht_Shetty",
-  "arg3": "https://www.seek.com.au/job/73935711?ref=search-standalone&type=standout#sol=6dd4bb810629dc6a15bc5b5a1ad713732f10282e",
-  "arg4": "/app/output"
-}
-
-----------------------------------------------------------------------------------------------------------------------
+docker run -v C:\Users\shres\Projects\EasyCV\App\python-app\keys\kp_docker_key.json:/app/kp_docker_key.json -e GOOGLE_APPLICATION_CREDENTIALS=/app/kp_docker_key.json -e OPENAI_API_KEY=sk-proj-95342345678901234567890123456789 -e PY_ENV=test -p 8000:8000 python-app:latest
