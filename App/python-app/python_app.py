@@ -4,6 +4,8 @@ from models import UserInfo, CVRequest  # Import from models.py
 import os
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from dotenv import load_dotenv
+from constants import OPENAI_API_KEY
 
 app = FastAPI()
 
@@ -23,10 +25,11 @@ async def read_root():
 async def generate_cv(request: CVRequest):
     # Your existing code to handle the arguments and generate the CV
     try:
-        # Set OPENAI_API_KEY environment variable
-        os.environ[
-            "OPENAI_API_KEY"
-        ] = "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"
+        # Check if API key exists
+        if not OPENAI_API_KEY:
+            raise HTTPException(status_code=500, detail="OpenAI API key not found in environment variables")
+        
+        os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
         # Initialize the bot with provided arguments
         bot_create_cv = BotCreateCV(

@@ -15,7 +15,7 @@ from typing import Optional, List
 from pydantic import BaseModel
 import json
 from typing import List, Optional
-from constants import PY_ENV
+from constants import PY_ENV, OPENAI_API_KEY
 
 # Import the UserInfo class and other necessary classes
 from models import UserInfo, Education, Experience, Project
@@ -391,7 +391,7 @@ class BotCreateCV:
 
 
 # if __name__ == '__main__':
-#     os.environ['OPENAI_API_KEY'] = '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'
+#     os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
 #     bot = BotCreateCV("cv_templates/cv_template_3","user/Shresht_Shetty",
 #                 "https://www.seek.com.au/job/71297266?type=standard#sol=9a67e2171fa56642ab1b092d4ad01256cb8e6a6f",
 #                 "C:\\Users\shres\Projects\EasyCV\App\python-app\output")
