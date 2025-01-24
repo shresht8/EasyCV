@@ -13,6 +13,7 @@ from langchain.chains.openai_functions import (
 )
 import argparse
 from PROMPT_FILE import test_prompt
+from dotenv import load_dotenv
 
 # from langchain_community.document_loaders import AsyncHtmlLoader
 # from langchain_community.document_transformers import Html2TextTransformer
@@ -209,7 +210,9 @@ if __name__ == "__main__":
         "arg5", nargs="?", type=none_or_str, default=None, help="Job description link"
     )
     args = parser.parse_args()
-    os.environ["OPENAI_API_KEY"] = "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"
+    load_dotenv()
+    api_key = os.getenv("OPENAI_API_KEY")
+    os.environ["OPENAI_API_KEY"] = api_key
     bot_create_cv = BotCreateCV(args.arg1, args.arg2, args.arg3, args.arg4, args.arg5)
     # Debugging code
     # bot_create_cv = BotCreateCV(
